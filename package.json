@@ -1,5 +1,5 @@
 {
-	"homepage": "https://nguyennk0309.github.io/management-ui",
+	"homepage": "https://smart-home-management.surge.sh",
 	"name": "management-ui",
 	"version": "0.1.0",
 	"private": true,
@@ -35,7 +35,7 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
-		"deploy": "gh-pages -d build"
+		"deploy": "npm run build && cd build && copy index.html 200.html && surge"
 	},
 	"eslintConfig": {
 		"extends": [
