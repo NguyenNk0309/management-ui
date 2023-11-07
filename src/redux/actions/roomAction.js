@@ -20,9 +20,7 @@ export function getAllRoomsOfUserAction() {
 			if (response.status === 200) {
 				dispatch({ type: GET_MY_ROOMS, payload: response.data.data })
 			}
-		} catch (error) {
-			alert(error.response?.data.message)
-		}
+		} catch (error) {}
 		dispatch(closeLoadingAction())
 	}
 }

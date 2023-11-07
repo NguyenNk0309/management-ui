@@ -170,22 +170,9 @@ const HomeTemplate = () => {
 					<span>Sign Out</span>
 				</div>
 			</div>
+
 			<div className='w-10/12 absolute right-0 top-0 py-8 px-4'>
-				<div className='flex items-center justify-end p-4 fixed top-0 right-0 bg-black opacity-50 w-10/12'>
-					<div className='flex items-center gap-4 font-semibold'>
-						<h1>
-							Welcome Back, <span className='text-white underline'>{myInfo.fullName}</span>
-						</h1>
-						<div className='w-14 h-14 rounded-full bg-violet-500'>
-							<img
-								className='w-full h-full rounded-full border-2 border-violet-500 cursor-pointer'
-								src={`https://ui-avatars.com/api/?name=${myInfo.fullName}`}
-								alt=''
-							/>
-						</div>
-					</div>
-				</div>
-				<div className='pt-20'>
+				<div>
 					<Outlet />
 				</div>
 			</div>

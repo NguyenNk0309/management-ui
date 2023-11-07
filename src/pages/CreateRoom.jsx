@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createRoomAction } from '../redux/actions/roomAction'
 import { AutoComplete } from 'antd'
 import { getAllUserAction } from '../redux/actions/userAction'
+import { ADMIN_ROLE } from '../utils/constant'
 
 const CreateRoom = () => {
 	const dispatch = useDispatch()
@@ -30,10 +31,12 @@ const CreateRoom = () => {
 					type='text'
 				/>
 				<AutoComplete
-					options={users.map((user) => {
-						user.value = user.username
-						return user
-					})}
+					options={users
+						.filter((user) => user.role !== ADMIN_ROLE)
+						.map((user) => {
+							user.value = user.username
+							return user
+						})}
 					onSelect={(value, option) => {
 						setUserPk(option.pk)
 					}}
