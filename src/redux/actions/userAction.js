@@ -1,6 +1,7 @@
 import userService from '../../services/userService'
 import { ROLE, USER_ID } from '../../utils/constant'
 import { GET_ALL_USER, GET_MY_INFO } from '../constants/userConstant'
+import { actionCloseModal } from './ModalAction'
 import { closeLoadingAction, openLoadingAction } from './loadingAction'
 
 export function getMyInfoAction() {
@@ -46,7 +47,8 @@ export function updateUserAction(payload, userPk) {
 		} catch (error) {
 			alert(error.response?.data.message)
 		}
-		dispatch(closeLoadingAction())
+		await dispatch(closeLoadingAction())
+		dispatch(actionCloseModal())
 	}
 }
 

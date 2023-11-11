@@ -5,6 +5,7 @@ import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import { actionOpenModal } from '../redux/actions/ModalAction'
 import AddUser from '../components/AddUser'
+import UpdateUser from '../components/UpdateUser'
 
 const UserManagement = () => {
 	const dispatch = useDispatch()
@@ -55,7 +56,7 @@ const UserManagement = () => {
 							<AiFillDelete />
 						</button>
 						<button
-							// onClick={() => navigate(`edit-film/${record.maPhim}`)}
+							onClick={() => dispatch(actionOpenModal('Update User', <UpdateUser user={record} />))}
 							className='text-blue-500 cursor-pointer text-2xl'>
 							<AiFillEdit />
 						</button>

@@ -26,7 +26,6 @@ const defaultHardwareValue = {
 	secondAmpSensorValue: 'N/A',
 	acSwitch: false,
 	acPumpSwitch: false,
-	reservedSwitch: false,
 	updatedOn: 'N/A',
 }
 
@@ -222,7 +221,6 @@ const RoomInfo = () => {
 										data: {
 											acSwitch: e,
 											acPumpSwitch: hardware.acPumpSwitch,
-											reservedSwitch: hardware.reservedSwitch,
 											isShutdown: false,
 											isReboot: false,
 										},
@@ -249,7 +247,6 @@ const RoomInfo = () => {
 										data: {
 											acSwitch: hardware.acSwitch,
 											acPumpSwitch: e,
-											reservedSwitch: hardware.reservedSwitch,
 											isShutdown: false,
 											isReboot: false,
 										},
@@ -259,33 +256,6 @@ const RoomInfo = () => {
 							}}
 							checked={hardware?.acPumpSwitch}
 							style={{ backgroundColor: hardware?.acPumpSwitch ? 'green' : 'red' }}
-						/>
-					</div>
-					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
-						<ImSwitch
-							className={`${
-								hardware?.reservedSwitch ? 'text-green-600' : 'text-red-600'
-							} text-7xl transition-all`}
-						/>
-						<h1 className='font-semibold text-4xl'>Reserved Switch</h1>
-						<Switch
-							onChange={(e) => {
-								dispatch(
-									updateHardwareAction({
-										pk: thisRoom.pk,
-										data: {
-											acSwitch: hardware.acSwitch,
-											acPumpSwitch: hardware.acPumpSwitch,
-											reservedSwitch: e,
-											isShutdown: false,
-											isReboot: false,
-										},
-									})
-								)
-								setHardware({ ...hardware, reservedSwitch: e })
-							}}
-							checked={hardware?.reservedSwitch}
-							style={{ backgroundColor: hardware?.reservedSwitch ? 'green' : 'red' }}
 						/>
 					</div>
 				</div>
