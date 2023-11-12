@@ -117,28 +117,10 @@ const HomeTemplate = () => {
 		),
 		myInfo.role === ADMIN_ROLE
 			? {
-					label: (
-						<div className='flex items-center gap-2'>
-							<AiOutlinePlusSquare className='text-lg text-violet-600' />
-							<h1 className='text-violet-600 font-semibold text-md'>Add/Update Room</h1>
-						</div>
-					),
-					type: 'group',
-					icon: null,
-					children: [
-						{
-							label: <span className='text-black font-semibold'>Add New Room</span>,
-							onClick: () => {
-								dispatch(actionOpenModal('Add New Room', <CreateRoom />))
-							},
-						},
-						{
-							label: <span className='text-black font-semibold'>Update Room Info</span>,
-							onClick: () => {
-								dispatch(actionOpenModal('Update Room Info', <></>))
-							},
-						},
-					],
+					label: <span className='text-black font-semibold'>Add New Room</span>,
+					onClick: () => {
+						dispatch(actionOpenModal('Add New Room', <CreateRoom />))
+					},
 			  }
 			: null,
 	]

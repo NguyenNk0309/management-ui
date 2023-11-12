@@ -96,3 +96,21 @@ export function getPowerAndWaterConsumptionHistoriesAction(payload) {
 		dispatch(closeLoadingAction())
 	}
 }
+
+export function deleteRoomAction(payload) {
+	return async (dispatch, getState) => {
+		const { navigate } = getState().navigateReducer
+		dispatch(openLoadingAction())
+		try {
+			const { status, data } = await roomService.deleteRoomByPk(payload)
+			if (status === 200) {
+				alert('Room Delete Successfully')
+			}
+		} catch (error) {
+			alert('Room Delete Fail')
+		}
+		await dispatch(getAllRoomsOfUserAction())
+		navigate('/user/info')
+		dispatch(closeLoadingAction())
+	}
+}

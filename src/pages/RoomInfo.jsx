@@ -6,11 +6,16 @@ import { DAYS_IN_MONTH, DAYS_OF_WEEK, HOURS_IN_DAY, LINK_API, MONTHS_IN_YEAR, fo
 import { over } from 'stompjs'
 import { FaFireFlameCurved, FaGaugeSimpleHigh, FaTemperatureHalf } from 'react-icons/fa6'
 import { MdOutlineElectricalServices } from 'react-icons/md'
+import { GrStatusGoodSmall } from 'react-icons/gr'
 import { WiHumidity } from 'react-icons/wi'
 import { MdGasMeter } from 'react-icons/md'
 import { ImSwitch } from 'react-icons/im'
-import { Calendar, Switch, Tabs } from 'antd'
-import { getPowerAndWaterConsumptionHistoriesAction, updateHardwareAction } from '../redux/actions/roomAction'
+import { Calendar, Popconfirm, Switch, Tabs } from 'antd'
+import {
+	deleteRoomAction,
+	getPowerAndWaterConsumptionHistoriesAction,
+	updateHardwareAction,
+} from '../redux/actions/roomAction'
 import { Bar } from 'react-chartjs-2'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
 import moment from 'moment/moment'
@@ -161,14 +166,43 @@ const RoomInfo = () => {
 	return (
 		<div className='flex flex-col gap-20 p-8 shadow-slate-600 shadow-lg rounded-2xl'>
 			<div className='flex flex-col gap-4'>
-				<h1 className='text-4xl'>
-					Hardware Status:{' '}
-					{thisRoom?.isUsed ? (
-						<span className='text-green-500'>Active</span>
-					) : (
-						<span className='text-red-500'>In Active</span>
-					)}
-				</h1>
+				<div className='flex items-start'>
+					<h1 className='text-4xl'>
+						Room Name:
+						<Popconfirm
+							placement='bottomLeft'
+							icon={<></>}
+							title={'Edit / Delete Room'}
+							okText='Edit'
+							cancelText='Delete'
+							onCancel={() => {
+								if (window.confirm('Are You Sure To Delete This Room ?') === true) {
+									dispatch(deleteRoomAction(thisRoom.pk))
+								}
+							}}
+							cancelButtonProps={{
+								style: {
+									background: 'red',
+									color: 'white',
+								},
+							}}
+							okButtonProps={{
+								style: {
+									background: 'blue',
+									color: 'white',
+								},
+							}}>
+							<span className='underline text-blue-600 cursor-pointer'>{thisRoom?.name}</span>
+						</Popconfirm>
+					</h1>
+					<div>
+						{thisRoom?.isUsed ? (
+							<GrStatusGoodSmall className='text-green-500' />
+						) : (
+							<GrStatusGoodSmall className='text-red-500' />
+						)}
+					</div>
+				</div>
 				<div className='grid grid-cols-4 gap-8'>
 					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
 						<MdGasMeter className='text-blue-500 text-7xl' />

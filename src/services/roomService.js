@@ -57,6 +57,15 @@ const roomService = {
 			},
 		})
 	},
+	deleteRoomByPk(roomPk) {
+		return axios({
+			url: `${LINK_API}/room/delete/${roomPk}`,
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+			},
+		})
+	},
 }
 
 export default roomService
