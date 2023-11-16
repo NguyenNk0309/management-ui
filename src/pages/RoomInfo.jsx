@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import SockJS from 'sockjs-client'
-import { DAYS_IN_MONTH, DAYS_OF_WEEK, HOURS_IN_DAY, LINK_API, MONTHS_IN_YEAR, formatTime } from '../utils/constant'
+import { DAYS_IN_MONTH, HOURS_IN_DAY, LINK_API, MONTHS_IN_YEAR, formatTime } from '../utils/constant'
 import { over } from 'stompjs'
 import { FaFireFlameCurved, FaGaugeSimpleHigh, FaTemperatureHalf } from 'react-icons/fa6'
 import { MdOutlineElectricalServices } from 'react-icons/md'
 import { GrStatusGoodSmall } from 'react-icons/gr'
+import { IoMdMore } from 'react-icons/io'
 import { WiHumidity } from 'react-icons/wi'
 import { MdGasMeter } from 'react-icons/md'
 import { ImSwitch } from 'react-icons/im'
-import { Calendar, Popconfirm, Switch, Tabs } from 'antd'
+import { Calendar, Popconfirm, Popover, Switch, Tabs } from 'antd'
 import {
 	deleteRoomAction,
+	getHardwareLimitAction,
 	getPowerAndWaterConsumptionHistoriesAction,
 	updateHardwareAction,
 } from '../redux/actions/roomAction'
@@ -20,6 +22,7 @@ import { Bar } from 'react-chartjs-2'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
 import moment from 'moment/moment'
 import dayjs from 'dayjs'
+import HardwareLimitEditor from '../components/HardwareLimitEditor'
 
 const defaultHardwareValue = {
 	gasSensorValue: 'N/A',
@@ -76,7 +79,7 @@ const options = {
 }
 
 const RoomInfo = () => {
-	const { myRooms, powerAndWaterHistories } = useSelector((state) => state.roomReducer)
+	const { myRooms, powerAndWaterHistories, hardwareLimit } = useSelector((state) => state.roomReducer)
 	const dispatch = useDispatch()
 
 	const pathVariable = useParams().token
@@ -102,6 +105,7 @@ const RoomInfo = () => {
 			setActiveTab('day')
 			setCalendar({ display: moment().format('yyyy-MM-DD'), value: dayjs() })
 			setThisRoom(thisRoom)
+			dispatch(getHardwareLimitAction(thisRoom.pk))
 			dispatch(
 				getPowerAndWaterConsumptionHistoriesAction({
 					roomPk: thisRoom.pk,
@@ -205,37 +209,135 @@ const RoomInfo = () => {
 				</div>
 				<div className='grid grid-cols-4 gap-8'>
 					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
+						<div className='w-full h-5 px-4 flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V0')}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
 						<MdGasMeter className='text-blue-500 text-7xl' />
 						<h1 className='font-semibold text-4xl'>Gas Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.gasSensorValue}</h1>
 					</div>
 					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
+						<div className='w-full h-5 px-4 flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V1')}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
 						<FaFireFlameCurved className='text-red-500 text-7xl' />
 						<h1 className='font-semibold text-4xl'>Flame Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.flameSensorValue}</h1>
 					</div>
 					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
+						<div className='w-full h-5 px-4 flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V2')}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
 						<FaGaugeSimpleHigh className='text-green-700 text-7xl' />
 						<h1 className='font-semibold text-4xl'>Pressure Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.pressureSensorValue}</h1>
 					</div>
 					<div></div>
 					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
+						<div className='w-full h-5 px-4 flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V4')}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
 						<FaTemperatureHalf className='text-red-500 text-7xl' />
 						<h1 className='font-semibold text-4xl'>Temperature Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.temperatureSensorValue}</h1>
 					</div>
 					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
+						<div className='w-full h-5 px-4 flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V5')}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
 						<WiHumidity className='text-blue-500 text-7xl' />
 						<h1 className='font-semibold text-4xl'>Humid Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.humiditySensorValue}</h1>
 					</div>
 					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
+						<div className='w-full h-5 px-4 flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V3')}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
 						<MdOutlineElectricalServices className='text-green-700 text-7xl' />
 						<h1 className='font-semibold text-4xl'>Ampere Sensor 1</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.ampSensorValue}</h1>
 					</div>
 					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
+						<div className='w-full h-5 px-4 flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V6')}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
 						<MdOutlineElectricalServices className='text-purple-600 text-7xl' />
 						<h1 className='font-semibold text-4xl'>Ampere Sensor 2</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.secondAmpSensorValue}</h1>

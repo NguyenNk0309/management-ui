@@ -1,7 +1,12 @@
 import CopyToClipboard from 'react-copy-to-clipboard'
 import roomService from '../../services/roomService'
 import { ADMIN_ROLE, USER_ID } from '../../utils/constant'
-import { GET_HARDWARE_HISTORIES, GET_MY_ROOMS, GET_POWER_WATER_HISTORIES } from '../constants/roomConstant'
+import {
+	GET_HARDWARE_HISTORIES,
+	GET_HARDWARE_LIMIT,
+	GET_MY_ROOMS,
+	GET_POWER_WATER_HISTORIES,
+} from '../constants/roomConstant'
 import { actionOpenModal } from './ModalAction'
 import { AiFillCopy } from 'react-icons/ai'
 import { closeLoadingAction, openLoadingAction } from './loadingAction'
@@ -111,6 +116,19 @@ export function deleteRoomAction(payload) {
 		}
 		await dispatch(getAllRoomsOfUserAction())
 		navigate('/user/info')
+		dispatch(closeLoadingAction())
+	}
+}
+
+export function getHardwareLimitAction(payload) {
+	return async (dispatch, getState) => {
+		dispatch(openLoadingAction())
+		try {
+			const { status, data } = await roomService.getHardwareLimit(payload)
+			if (status === 200) {
+				dispatch({ type: GET_HARDWARE_LIMIT, payload: data.data })
+			}
+		} catch (error) {}
 		dispatch(closeLoadingAction())
 	}
 }

@@ -33,7 +33,7 @@ export function formatTime(type, time) {
 	switch (type) {
 		case 'day':
 			if (time >= 0 && time <= 23) {
-				return time + 'd'
+				return time + 'h'
 			}
 			break
 

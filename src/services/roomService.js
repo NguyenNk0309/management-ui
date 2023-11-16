@@ -66,6 +66,15 @@ const roomService = {
 			},
 		})
 	},
+	getHardwareLimit(roomPk) {
+		return axios({
+			url: `${LINK_API}/room/get/hardware-limit/${roomPk}`,
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+			},
+		})
+	},
 }
 
 export default roomService
