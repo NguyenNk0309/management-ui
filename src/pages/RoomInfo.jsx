@@ -81,7 +81,6 @@ const options = {
 const RoomInfo = () => {
 	const { myRooms, powerAndWaterHistories, hardwareLimit } = useSelector((state) => state.roomReducer)
 	const dispatch = useDispatch()
-
 	const pathVariable = useParams().token
 
 	const [hardware, setHardware] = useState()
@@ -215,6 +214,8 @@ const RoomInfo = () => {
 								content={
 									<HardwareLimitEditor
 										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V0')}
+										hardwareId={'V0'}
+										roomPk={thisRoom?.pk}
 									/>
 								}
 								title='Limit Setup'
@@ -234,6 +235,8 @@ const RoomInfo = () => {
 								content={
 									<HardwareLimitEditor
 										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V1')}
+										hardwareId={'V1'}
+										roomPk={thisRoom?.pk}
 									/>
 								}
 								title='Limit Setup'
@@ -253,6 +256,8 @@ const RoomInfo = () => {
 								content={
 									<HardwareLimitEditor
 										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V2')}
+										hardwareId={'V2'}
+										roomPk={thisRoom?.pk}
 									/>
 								}
 								title='Limit Setup'
@@ -273,6 +278,8 @@ const RoomInfo = () => {
 								content={
 									<HardwareLimitEditor
 										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V4')}
+										hardwareId={'V4'}
+										roomPk={thisRoom?.pk}
 									/>
 								}
 								title='Limit Setup'
@@ -292,6 +299,8 @@ const RoomInfo = () => {
 								content={
 									<HardwareLimitEditor
 										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V5')}
+										hardwareId={'V5'}
+										roomPk={thisRoom?.pk}
 									/>
 								}
 								title='Limit Setup'
@@ -311,6 +320,8 @@ const RoomInfo = () => {
 								content={
 									<HardwareLimitEditor
 										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V3')}
+										hardwareId={'V3'}
+										roomPk={thisRoom?.pk}
 									/>
 								}
 								title='Limit Setup'
@@ -330,6 +341,8 @@ const RoomInfo = () => {
 								content={
 									<HardwareLimitEditor
 										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V6')}
+										hardwareId={'V6'}
+										roomPk={thisRoom?.pk}
 									/>
 								}
 								title='Limit Setup'

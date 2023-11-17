@@ -1,10 +1,14 @@
 import { InputNumber } from 'antd'
 import React, { useState } from 'react'
 import { IoIosCloseCircleOutline } from 'react-icons/io'
+import { useDispatch } from 'react-redux'
+import { deleteHardwareLimitAction, updateHardwareLimitAction } from '../redux/actions/roomAction'
 
-const HardwareLimitEditor = ({ hardwareLimit }) => {
+const HardwareLimitEditor = ({ hardwareLimit, roomPk, hardwareId }) => {
+	const dispatch = useDispatch()
+
 	const [limitInfo, setLimitInfo] = useState({
-		hardwareId: hardwareLimit?.hardwareId,
+		hardwareId: hardwareId,
 		upperLimit: hardwareLimit?.upperLimit,
 		lowerLimit: hardwareLimit?.lowerLimit,
 	})
@@ -36,6 +40,12 @@ const HardwareLimitEditor = ({ hardwareLimit }) => {
 
 			<div className='flex items-center justify-end gap-2'>
 				<button
+					onClick={() => {
+						if (window.confirm('Are You Sure To These Limit Setup ?') === true) {
+							setLimitInfo({ ...limitInfo, upperLimit: null, lowerLimit: null })
+							dispatch(deleteHardwareLimitAction({ roomPk, hardwareId }))
+						}
+					}}
 					disabled={limitInfo.lowerLimit == null && limitInfo.upperLimit == null}
 					className={`px-2 py-1 rounded-lg bg-red-500 font-semibold text-white shadow-lg shadow-gray-400 ${
 						limitInfo.lowerLimit == null && limitInfo.upperLimit == null
@@ -44,7 +54,9 @@ const HardwareLimitEditor = ({ hardwareLimit }) => {
 					}`}>
 					Clear
 				</button>
-				<button className='px-2 py-1 rounded-lg bg-blue-500 font-semibold text-white shadow-lg shadow-gray-400'>
+				<button
+					onClick={() => dispatch(updateHardwareLimitAction({ roomPk, data: limitInfo }))}
+					className='px-2 py-1 rounded-lg bg-blue-500 font-semibold text-white shadow-lg shadow-gray-400'>
 					Update
 				</button>
 			</div>

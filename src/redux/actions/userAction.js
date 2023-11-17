@@ -13,9 +13,7 @@ export function getMyInfoAction() {
 				localStorage.setItem(USER_ID, data.data.pk)
 				dispatch({ type: GET_MY_INFO, payload: data.data })
 			}
-		} catch (error) {
-			alert(error.response?.data.message)
-		}
+		} catch (error) {}
 	}
 }
 
@@ -27,9 +25,7 @@ export function getAllUserAction() {
 			if (status === 200) {
 				dispatch({ type: GET_ALL_USER, payload: data.data })
 			}
-		} catch (error) {
-			alert(error.response?.data.message)
-		}
+		} catch (error) {}
 		dispatch(closeLoadingAction())
 	}
 }
@@ -45,7 +41,7 @@ export function updateUserAction(payload, userPk) {
 				await dispatch(getMyInfoAction())
 			}
 		} catch (error) {
-			alert(error.response?.data.message)
+			alert('Update User Info Fail')
 		}
 		await dispatch(closeLoadingAction())
 		dispatch(actionCloseModal())
@@ -62,7 +58,7 @@ export function deleteUserAction(userPk) {
 				alert('User Delete Successfully')
 			}
 		} catch (error) {
-			alert(error.response?.data.message)
+			alert('Delete User Fail')
 		}
 		dispatch(closeLoadingAction())
 	}

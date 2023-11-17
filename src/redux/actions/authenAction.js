@@ -16,7 +16,7 @@ export function signInAction(payload) {
 				navigate('/user/info')
 			}
 		} catch (error) {
-			alert(error.response?.data.message)
+			alert('Username Or Password Is Incorrect')
 		}
 		dispatch(closeLoadingAction())
 	}
@@ -32,7 +32,7 @@ export function signUpAction(payload) {
 				navigate('/sign-in')
 			}
 		} catch (error) {
-			alert(error.response?.data.message)
+			alert('Some Error Occur When Sign Up, Please Try Again')
 		}
 		await dispatch(getAllUserAction())
 		await dispatch(closeLoadingAction())

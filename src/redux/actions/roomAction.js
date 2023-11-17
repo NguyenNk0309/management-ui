@@ -38,7 +38,7 @@ export function updateHardwareAction(payload) {
 				// dispatch({ type: GET_MY_ROOMS, payload: data.data })
 			}
 		} catch (error) {
-			alert(error.response?.data.message)
+			alert('Update Hardware Fail')
 		}
 	}
 }
@@ -66,7 +66,7 @@ export function createRoomAction(payload) {
 					dispatch(getAllRoomsOfUserAction())
 				}
 			} catch (error) {
-				alert(error.response?.data.message)
+				alert('Create Room Fail')
 			}
 		}
 		dispatch(closeLoadingAction())
@@ -80,9 +80,7 @@ export function getHardwareUpdateHistories(payload) {
 			if (status === 200) {
 				dispatch({ type: GET_HARDWARE_HISTORIES, payload: data.data })
 			}
-		} catch (error) {
-			alert(error.response?.data.message)
-		}
+		} catch (error) {}
 		dispatch(closeLoadingAction())
 	}
 }
@@ -95,9 +93,7 @@ export function getPowerAndWaterConsumptionHistoriesAction(payload) {
 			if (status === 200) {
 				dispatch({ type: GET_POWER_WATER_HISTORIES, payload: data.data })
 			}
-		} catch (error) {
-			alert(error.response?.data.message)
-		}
+		} catch (error) {}
 		dispatch(closeLoadingAction())
 	}
 }
@@ -129,6 +125,38 @@ export function getHardwareLimitAction(payload) {
 				dispatch({ type: GET_HARDWARE_LIMIT, payload: data.data })
 			}
 		} catch (error) {}
+		dispatch(closeLoadingAction())
+	}
+}
+
+export function updateHardwareLimitAction(payload) {
+	return async (dispatch, getState) => {
+		dispatch(openLoadingAction())
+		try {
+			const { status, data } = await roomService.updateHardwareLimit(payload)
+			if (status === 200) {
+				alert('Limit Update Successfully')
+			}
+		} catch (error) {
+			alert('Limit Update Fail')
+		}
+		await dispatch(getHardwareLimitAction(payload.roomPk))
+		dispatch(closeLoadingAction())
+	}
+}
+
+export function deleteHardwareLimitAction(payload) {
+	return async (dispatch, getState) => {
+		dispatch(openLoadingAction())
+		try {
+			const { status, data } = await roomService.deleteHardwareLimit(payload)
+			if (status === 200) {
+				alert('Limit Delete Successfully')
+			}
+		} catch (error) {
+			alert('Limit Delete Fail')
+		}
+		await dispatch(getHardwareLimitAction(payload.roomPk))
 		dispatch(closeLoadingAction())
 	}
 }

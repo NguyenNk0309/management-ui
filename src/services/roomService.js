@@ -75,6 +75,25 @@ const roomService = {
 			},
 		})
 	},
+	updateHardwareLimit({ roomPk, data }) {
+		return axios({
+			url: `${LINK_API}/room/update/hardware-limit/${roomPk}`,
+			method: 'PUT',
+			data,
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+			},
+		})
+	},
+	deleteHardwareLimit({ roomPk, hardwareId }) {
+		return axios({
+			url: `${LINK_API}/room/delete/hardware-limit/${roomPk}?hardwareId=${hardwareId}`,
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+			},
+		})
+	},
 }
 
 export default roomService
