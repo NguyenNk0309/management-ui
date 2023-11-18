@@ -217,8 +217,8 @@ const RoomInfo = () => {
 					</div>
 				</div>
 				<div className='grid grid-cols-4 gap-8'>
-					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
-						<div className='w-full h-5 px-4 flex items-center justify-end'>
+					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
 							<Popover
 								className='cursor-pointer'
 								content={
@@ -235,11 +235,11 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<MdGasMeter className='text-blue-500 text-7xl' />
-						<h1 className='font-semibold text-4xl text-center'>Gas Sensor</h1>
+						<h1 className='font-semibold text-2xl text-center'>Gas Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.gasSensorValue}</h1>
 					</div>
-					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
-						<div className='w-full h-5 px-4 flex items-center justify-end'>
+					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
 							<Popover
 								className='cursor-pointer'
 								content={
@@ -256,11 +256,11 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<FaFireFlameCurved className='text-red-500 text-7xl' />
-						<h1 className='font-semibold text-4xl text-center'>Flame Sensor</h1>
+						<h1 className='font-semibold text-2xl text-center'>Flame Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.flameSensorValue}</h1>
 					</div>
-					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
-						<div className='w-full h-5 px-4 flex items-center justify-end'>
+					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
 							<Popover
 								className='cursor-pointer'
 								content={
@@ -277,12 +277,12 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<FaGaugeSimpleHigh className='text-green-700 text-7xl' />
-						<h1 className='font-semibold text-4xl text-center'>Pressure Sensor</h1>
+						<h1 className='font-semibold text-2xl text-center'>Pressure Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.pressureSensorValue}</h1>
 					</div>
 					<div></div>
-					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
-						<div className='w-full h-5 px-4 flex items-center justify-end'>
+					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
 							<Popover
 								className='cursor-pointer'
 								content={
@@ -299,11 +299,11 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<FaTemperatureHalf className='text-red-500 text-7xl' />
-						<h1 className='font-semibold text-4xl text-center'>Temperature Sensor</h1>
+						<h1 className='font-semibold text-2xl text-center'>Temperature Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.temperatureSensorValue}</h1>
 					</div>
-					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
-						<div className='w-full h-5 px-4 flex items-center justify-end'>
+					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
 							<Popover
 								className='cursor-pointer'
 								content={
@@ -320,11 +320,11 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<WiHumidity className='text-blue-500 text-7xl' />
-						<h1 className='font-semibold text-4xl text-center'>Humid Sensor</h1>
+						<h1 className='font-semibold text-2xl text-center'>Humid Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.humiditySensorValue}</h1>
 					</div>
-					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
-						<div className='w-full h-5 px-4 flex items-center justify-end'>
+					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
 							<Popover
 								className='cursor-pointer'
 								content={
@@ -341,11 +341,11 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<MdOutlineElectricalServices className='text-green-700 text-7xl' />
-						<h1 className='font-semibold text-4xl text-center'>Ampere Sensor 1</h1>
+						<h1 className='font-semibold text-2xl text-center'>Ampere Sensor 1</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.ampSensorValue}</h1>
 					</div>
-					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
-						<div className='w-full h-5 px-4 flex items-center justify-end'>
+					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
 							<Popover
 								className='cursor-pointer'
 								content={
@@ -362,16 +362,16 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<MdOutlineElectricalServices className='text-purple-600 text-7xl' />
-						<h1 className='font-semibold text-4xl text-center'>Ampere Sensor 2</h1>
+						<h1 className='font-semibold text-2xl text-center'>Ampere Sensor 2</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.secondAmpSensorValue}</h1>
 					</div>
-					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
+					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
 						<ImSwitch
 							className={`${
 								hardware?.acSwitch ? 'text-green-600' : 'text-red-600'
 							} text-7xl transition-all`}
 						/>
-						<h1 className='font-semibold text-4xl text-center'>AC Switch</h1>
+						<h1 className='font-semibold text-2xl text-center'>AC Switch</h1>
 						<Switch
 							onChange={(e) => {
 								dispatch(
@@ -391,13 +391,13 @@ const RoomInfo = () => {
 							style={{ backgroundColor: hardware?.acSwitch ? 'green' : 'red' }}
 						/>
 					</div>
-					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600'>
+					<div className='h-64 bg-violet-400 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
 						<ImSwitch
 							className={`${
 								hardware?.acPumpSwitch ? 'text-green-600' : 'text-red-600'
 							} text-7xl transition-all`}
 						/>
-						<h1 className='font-semibold text-4xl text-center'>AC Pump Switch</h1>
+						<h1 className='font-semibold text-2xl text-center'>AC Pump Switch</h1>
 						<Switch
 							onChange={(e) => {
 								dispatch(
