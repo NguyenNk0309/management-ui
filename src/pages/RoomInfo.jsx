@@ -17,12 +17,14 @@ import {
 	getHardwareLimitAction,
 	getPowerAndWaterConsumptionHistoriesAction,
 	updateHardwareAction,
+	updateRoomNameAction,
 } from '../redux/actions/roomAction'
 import { Bar } from 'react-chartjs-2'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
 import moment from 'moment/moment'
 import dayjs from 'dayjs'
 import HardwareLimitEditor from '../components/HardwareLimitEditor'
+import { GET_NEW_UPDATED_ROOM_NAME } from '../redux/constants/roomConstant'
 
 const defaultHardwareValue = {
 	gasSensorValue: 'N/A',
@@ -79,7 +81,7 @@ const options = {
 }
 
 const RoomInfo = () => {
-	const { myRooms, powerAndWaterHistories, hardwareLimit } = useSelector((state) => state.roomReducer)
+	const { myRooms, powerAndWaterHistories, hardwareLimit, roomName } = useSelector((state) => state.roomReducer)
 	const dispatch = useDispatch()
 	const pathVariable = useParams().token
 
@@ -104,6 +106,7 @@ const RoomInfo = () => {
 			setActiveTab('day')
 			setCalendar({ display: moment().format('yyyy-MM-DD'), value: dayjs() })
 			setThisRoom(thisRoom)
+			dispatch({ type: GET_NEW_UPDATED_ROOM_NAME, payload: thisRoom.name })
 			dispatch(getHardwareLimitAction(thisRoom.pk))
 			dispatch(
 				getPowerAndWaterConsumptionHistoriesAction({
@@ -175,12 +178,19 @@ const RoomInfo = () => {
 						<Popconfirm
 							placement='bottomLeft'
 							icon={<></>}
-							title={'Edit / Delete Room'}
-							okText='Edit'
+							title={'Delete / Change Room Name'}
+							okText='Change Name'
 							cancelText='Delete'
 							onCancel={() => {
 								if (window.confirm('Are You Sure To Delete This Room ?') === true) {
 									dispatch(deleteRoomAction(thisRoom.pk))
+								}
+							}}
+							onConfirm={() => {
+								let roomName = prompt('Please Enter Your New Name:', thisRoom.name)
+								roomName = roomName.trim()
+								if (roomName !== null && roomName !== '') {
+									dispatch(updateRoomNameAction({ roomPk: thisRoom.pk, roomName }))
 								}
 							}}
 							cancelButtonProps={{
@@ -195,7 +205,7 @@ const RoomInfo = () => {
 									color: 'white',
 								},
 							}}>
-							<span className='underline text-blue-600 cursor-pointer'>{thisRoom?.name}</span>
+							<span className='underline text-blue-600 cursor-pointer'>{roomName}</span>
 						</Popconfirm>
 					</h1>
 					<div>

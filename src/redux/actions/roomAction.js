@@ -5,6 +5,7 @@ import {
 	GET_HARDWARE_HISTORIES,
 	GET_HARDWARE_LIMIT,
 	GET_MY_ROOMS,
+	GET_NEW_UPDATED_ROOM_NAME,
 	GET_POWER_WATER_HISTORIES,
 } from '../constants/roomConstant'
 import { actionOpenModal } from './ModalAction'
@@ -35,7 +36,6 @@ export function updateHardwareAction(payload) {
 		try {
 			const { status, data } = await roomService.updateHardware(payload)
 			if (status === 200) {
-				// dispatch({ type: GET_MY_ROOMS, payload: data.data })
 			}
 		} catch (error) {
 			alert('Update Hardware Fail')
@@ -157,6 +157,23 @@ export function deleteHardwareLimitAction(payload) {
 			alert('Limit Delete Fail')
 		}
 		await dispatch(getHardwareLimitAction(payload.roomPk))
+		dispatch(closeLoadingAction())
+	}
+}
+
+export function updateRoomNameAction(payload) {
+	return async (dispatch, getState) => {
+		dispatch(openLoadingAction())
+		try {
+			const { status, data } = await roomService.updateRoomName(payload)
+			if (status === 200) {
+				alert('Change Name Successfully')
+				dispatch({ type: GET_NEW_UPDATED_ROOM_NAME, payload: data.data })
+			}
+		} catch (error) {
+			alert('Change Name Fail')
+		}
+		await dispatch(getAllRoomsOfUserAction())
 		dispatch(closeLoadingAction())
 	}
 }

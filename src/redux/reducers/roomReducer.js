@@ -2,6 +2,7 @@ import {
 	GET_HARDWARE_HISTORIES,
 	GET_HARDWARE_LIMIT,
 	GET_MY_ROOMS,
+	GET_NEW_UPDATED_ROOM_NAME,
 	GET_POWER_WATER_HISTORIES,
 } from '../constants/roomConstant'
 
@@ -10,6 +11,7 @@ const initialState = {
 	hardwareHistories: [],
 	powerAndWaterHistories: [],
 	hardwareLimit: [],
+	roomName: '',
 }
 
 export default function roomReducer(state = initialState, { type, payload }) {
@@ -29,6 +31,10 @@ export default function roomReducer(state = initialState, { type, payload }) {
 		}
 		case GET_HARDWARE_LIMIT: {
 			newState.hardwareLimit = payload
+			return newState
+		}
+		case GET_NEW_UPDATED_ROOM_NAME: {
+			newState.roomName = payload
 			return newState
 		}
 		default:

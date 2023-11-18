@@ -66,6 +66,15 @@ const roomService = {
 			},
 		})
 	},
+	updateRoomName({ roomPk, roomName }) {
+		return axios({
+			url: `${LINK_API}/room/update/${roomPk}?name=${roomName}`,
+			method: 'PUT',
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+			},
+		})
+	},
 	getHardwareLimit(roomPk) {
 		return axios({
 			url: `${LINK_API}/room/get/hardware-limit/${roomPk}`,
