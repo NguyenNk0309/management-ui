@@ -12,9 +12,13 @@ import NotFound from './pages/NotFound'
 import UserInfo from './pages/UserInfo'
 import UserManagement from './pages/UserManagement'
 import RoomInfo from './pages/RoomInfo'
-import { ACCESS_TOKEN, ADMIN_ROLE, ROLE } from './utils/constant'
+import { ACCESS_TOKEN, ADMIN_ROLE, LINK_API, ROLE, USER_ID } from './utils/constant'
 import HomeTemplate from './templates/HomeTemplate'
 import { validateToken } from './redux/actions/authenAction'
+import SockJS from 'sockjs-client'
+import { over } from 'stompjs'
+import { notification } from 'antd'
+import { PiWarningCircleFill } from 'react-icons/pi'
 
 function App() {
 	const dispatch = useDispatch()
@@ -30,6 +34,29 @@ function App() {
 			dispatch(validateToken())
 		}
 	}, [])
+
+	useEffect(() => {
+		const socket = new SockJS(LINK_API + '/ws/registry')
+		const stompClient = over(socket)
+
+		if (!localStorage.getItem(USER_ID)) {
+			if (stompClient.connected) {
+				stompClient.disconnect()
+			}
+		} else {
+			stompClient.connect({}, () => {
+				stompClient.subscribe(`/ws/topic/user/${localStorage.getItem(USER_ID)}`, (response) => {
+					const data = JSON.parse(response.body)
+					notification.open({
+						message: <span className='font-semibold'>{data.title}</span>,
+						description: data.description,
+						icon: <PiWarningCircleFill className='text-blue-500' />,
+						duration: 10,
+					})
+				})
+			})
+		}
+	}, [localStorage.getItem(USER_ID)])
 
 	return (
 		<div id='App' className='w-full min-h-screen'>
