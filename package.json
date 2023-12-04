@@ -35,7 +35,7 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
-		"deploy": "git pull && npm run build && sudo rm /var/www/html/* && sudo mv build/* /var/www/html"
+		"deploy": "git pull && npm run build && sudo rm -rf /var/www/html/* && sudo mv build/* /var/www/html"
 	},
 	"eslintConfig": {
 		"extends": [

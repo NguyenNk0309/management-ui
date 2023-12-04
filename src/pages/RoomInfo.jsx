@@ -263,9 +263,6 @@ const RoomInfo = () => {
 						<h1 className='font-semibold text-2xl text-center'>Water Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.waterSensorValue}</h1>
 					</div>
-					<div></div>
-					<div></div>
-					<div></div>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
 						<div className='w-full flex items-center justify-end'>
 							<Popover
@@ -309,8 +306,6 @@ const RoomInfo = () => {
 						<h1 className='font-semibold text-2xl'>{hardware?.humiditySensorValue}</h1>
 					</div>
 					<div></div>
-					<div></div>
-					<div></div>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
 						<div className='w-full flex items-center justify-end'>
 							<Popover
@@ -353,8 +348,54 @@ const RoomInfo = () => {
 						<h1 className='font-semibold text-2xl text-center'>Ampere Sensor</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.ampereSensorValue}</h1>
 					</div>
-					<div></div>
-					<div></div>
+					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<ImSwitch
+							className={`${
+								hardware?.acSwitch1 ? 'text-green-600' : 'text-red-600'
+							} text-7xl transition-all`}
+						/>
+						<h1 className='font-semibold text-2xl text-center'>AC Switch 1</h1>
+						<Switch
+							onChange={(e) => {
+								dispatch(
+									updateHardwareAction({
+										pk: thisRoom.pk,
+										data: {
+											acSwitch1: e,
+											acSwitch2: hardware.acSwitch2,
+										},
+									})
+								)
+								setHardware({ ...hardware, acSwitch1: e })
+							}}
+							checked={hardware?.acSwitch1}
+							style={{ backgroundColor: hardware?.acSwitch1 ? 'green' : 'red' }}
+						/>
+					</div>
+					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<ImSwitch
+							className={`${
+								hardware?.acSwitch2 ? 'text-green-600' : 'text-red-600'
+							} text-7xl transition-all`}
+						/>
+						<h1 className='font-semibold text-2xl text-center'>AC Switch 2</h1>
+						<Switch
+							onChange={(e) => {
+								dispatch(
+									updateHardwareAction({
+										pk: thisRoom.pk,
+										data: {
+											acSwitch1: hardware.acSwitch1,
+											acSwitch2: e,
+										},
+									})
+								)
+								setHardware({ ...hardware, acSwitch2: e })
+							}}
+							checked={hardware?.acSwitch2}
+							style={{ backgroundColor: hardware?.acSwitch2 ? 'green' : 'red' }}
+						/>
+					</div>
 					<div></div>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
 						<div className='w-full flex items-center justify-end'>
@@ -460,54 +501,6 @@ const RoomInfo = () => {
 						<FaFire className='text-red-500 text-7xl' />
 						<h1 className='font-semibold text-2xl text-center'>Fire Sensor 5</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.fireSensor5Value}</h1>
-					</div>
-					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
-						<ImSwitch
-							className={`${
-								hardware?.acSwitch1 ? 'text-green-600' : 'text-red-600'
-							} text-7xl transition-all`}
-						/>
-						<h1 className='font-semibold text-2xl text-center'>AC Switch 1</h1>
-						<Switch
-							onChange={(e) => {
-								dispatch(
-									updateHardwareAction({
-										pk: thisRoom.pk,
-										data: {
-											acSwitch1: e,
-											acSwitch2: hardware.acSwitch2,
-										},
-									})
-								)
-								setHardware({ ...hardware, acSwitch1: e })
-							}}
-							checked={hardware?.acSwitch1}
-							style={{ backgroundColor: hardware?.acSwitch1 ? 'green' : 'red' }}
-						/>
-					</div>
-					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
-						<ImSwitch
-							className={`${
-								hardware?.acSwitch2 ? 'text-green-600' : 'text-red-600'
-							} text-7xl transition-all`}
-						/>
-						<h1 className='font-semibold text-2xl text-center'>AC Switch 2</h1>
-						<Switch
-							onChange={(e) => {
-								dispatch(
-									updateHardwareAction({
-										pk: thisRoom.pk,
-										data: {
-											acSwitch1: hardware.acSwitch1,
-											acSwitch2: e,
-										},
-									})
-								)
-								setHardware({ ...hardware, acSwitch2: e })
-							}}
-							checked={hardware?.acSwitch2}
-							style={{ backgroundColor: hardware?.acSwitch2 ? 'green' : 'red' }}
-						/>
 					</div>
 				</div>
 			</div>
