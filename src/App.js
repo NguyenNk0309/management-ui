@@ -45,13 +45,18 @@ function App() {
 			}
 		} else {
 			stompClient.connect({}, () => {
-				stompClient.subscribe(`/ws/topic/user/${localStorage.getItem(USER_ID)}`, (response) => {
+				const subscribeURL =
+					localStorage.getItem(ROLE) === ADMIN_ROLE
+						? `/ws/topic/role/${localStorage.getItem(ROLE)}`
+						: `/ws/topic/user/${localStorage.getItem(USER_ID)}`
+
+				stompClient.subscribe(subscribeURL, (response) => {
 					const data = JSON.parse(response.body)
 					notification.open({
 						message: <span className='font-semibold'>{data.title}</span>,
 						description: data.description,
 						icon: <PiWarningCircleFill className='text-blue-500' />,
-						duration: 10,
+						duration: 20,
 					})
 				})
 			})
