@@ -171,7 +171,6 @@ const RoomInfo = () => {
 	}, [pathVariable, myRooms.length])
 
 	function ampereAndVoltageHistoriesData() {
-		console.log(ampereVoltageHistories)
 		return {
 			labels: ampereVoltageHistories,
 			datasets: [
