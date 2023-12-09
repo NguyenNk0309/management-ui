@@ -37,10 +37,10 @@ export function updateHardwareAction(payload) {
 		try {
 			const { status, data } = await roomService.updateHardware(payload)
 			if (status === 200) {
-				alert('Hardware Is Being Updated. Please Wait')
+				// alert('Hardware Is Being Updated. Please Wait')
 			}
 		} catch (error) {
-			alert('Update Hardware Fail')
+			// alert('Update Hardware Fail')
 		}
 	}
 }
@@ -100,18 +100,17 @@ export function getPowerAndWaterConsumptionHistoriesAction(payload) {
 	}
 }
 
-export function deleteRoomAction(payload) {
+export function deleteRoomAction(isConnected, payload) {
 	return async (dispatch, getState) => {
 		const { navigate } = getState().navigateReducer
 		dispatch(openLoadingAction())
 		try {
-			const { status } = await dispatch(updateHardwareAction(payload))
+			if (isConnected) await dispatch(updateHardwareAction(payload))
+
+			const { status } = await roomService.deleteRoomByPk(payload.pk)
 			if (status === 200) {
-				const { status } = await roomService.deleteRoomByPk(payload.pk)
-				if (status === 200) {
-					alert('Room Delete Successfully')
-					navigate('/user/info')
-				}
+				alert('Room Delete Successfully')
+				navigate('/user/info')
 			}
 		} catch (error) {
 			alert('Room Delete Fail')

@@ -207,7 +207,7 @@ const RoomInfo = () => {
 										onClick={() => {
 											if (window.confirm('Are You Sure To Delete This Room ?') === true) {
 												dispatch(
-													deleteRoomAction({
+													deleteRoomAction(thisRoom?.isUsed, {
 														pk: thisRoom.pk,
 														data: {
 															acSwitch1: hardware.acSwitch1,
