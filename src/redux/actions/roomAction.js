@@ -33,9 +33,11 @@ export function getAllRoomsOfUserAction() {
 
 export function updateHardwareAction(payload) {
 	return async (dispatch, getState) => {
+		dispatch(openLoadingAction())
 		try {
 			const { status, data } = await roomService.updateHardware(payload)
 			if (status === 200) {
+				alert('Hardware Is Being Updated. Please Wait')
 			}
 		} catch (error) {
 			alert('Update Hardware Fail')
@@ -103,15 +105,18 @@ export function deleteRoomAction(payload) {
 		const { navigate } = getState().navigateReducer
 		dispatch(openLoadingAction())
 		try {
-			const { status, data } = await roomService.deleteRoomByPk(payload)
+			const { status } = await dispatch(updateHardwareAction(payload))
 			if (status === 200) {
-				alert('Room Delete Successfully')
+				const { status } = await roomService.deleteRoomByPk(payload.pk)
+				if (status === 200) {
+					alert('Room Delete Successfully')
+					navigate('/user/info')
+				}
 			}
 		} catch (error) {
 			alert('Room Delete Fail')
 		}
 		await dispatch(getAllRoomsOfUserAction())
-		navigate('/user/info')
 		dispatch(closeLoadingAction())
 	}
 }

@@ -26,6 +26,7 @@ import moment from 'moment/moment'
 import dayjs from 'dayjs'
 import HardwareLimitEditor from '../components/HardwareLimitEditor'
 import { GET_NEW_UPDATED_ROOM_NAME } from '../redux/constants/roomConstant'
+import { closeLoadingAction } from '../redux/actions/loadingAction'
 
 const defaultHardwareValue = {
 	gasSensorValue: 'N/A',
@@ -41,6 +42,9 @@ const defaultHardwareValue = {
 	fireSensor5Value: 'N/A',
 	acSwitch1: false,
 	acSwitch2: false,
+	userReq: false,
+	resetFactoryReq: false,
+	rebootReq: false,
 }
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
@@ -103,6 +107,7 @@ const RoomInfo = () => {
 			stompClient.subscribe(`/ws/topic/${pathVariable}`, (response) => {
 				const data = JSON.parse(response.body)
 				setHardware(data)
+				dispatch(closeLoadingAction())
 			})
 		})
 		if (myRooms.length > 0) {
@@ -179,38 +184,70 @@ const RoomInfo = () => {
 				<div className='flex items-start'>
 					<h1 className='text-4xl'>
 						Room Name:
-						<Popconfirm
-							placement='bottomLeft'
-							icon={<></>}
-							title={'Delete / Change Room Name'}
-							okText='Change Name'
-							cancelText='Delete'
-							onCancel={() => {
-								if (window.confirm('Are You Sure To Delete This Room ?') === true) {
-									dispatch(deleteRoomAction(thisRoom.pk))
-								}
-							}}
-							onConfirm={() => {
-								let roomName = prompt('Please Enter Your New Name:', thisRoom.name)
-								roomName = roomName.trim()
-								if (roomName !== null && roomName !== '') {
-									dispatch(updateRoomNameAction({ roomPk: thisRoom.pk, roomName }))
-								}
-							}}
-							cancelButtonProps={{
-								style: {
-									background: 'red',
-									color: 'white',
-								},
-							}}
-							okButtonProps={{
-								style: {
-									background: 'blue',
-									color: 'white',
-								},
-							}}>
+						<Popover
+							className='cursor-pointer'
+							content={
+								<div className='flex flex-col gap-3 items-start'>
+									<button
+										onClick={() => {
+											let roomName = prompt('Please Enter Your New Name:', thisRoom.name)
+											if (roomName !== null && roomName.trim() !== '') {
+												dispatch(
+													updateRoomNameAction({
+														roomPk: thisRoom.pk,
+														roomName: roomName.trim(),
+													})
+												)
+											}
+										}}
+										className='px-2 py-1 bg-blue-500 rounded-md w-full text-white font-semibold'>
+										Change Room Name
+									</button>
+									<button
+										onClick={() => {
+											if (window.confirm('Are You Sure To Delete This Room ?') === true) {
+												dispatch(
+													deleteRoomAction({
+														pk: thisRoom.pk,
+														data: {
+															acSwitch1: hardware.acSwitch1,
+															acSwitch2: hardware.acSwitch2,
+															userReq: hardware.userReq,
+															resetFactoryReq: true,
+															rebootReq: hardware.rebootReq,
+														},
+													})
+												)
+											}
+										}}
+										className='px-2 py-1 bg-red-500 rounded-md w-full text-white font-semibold'>
+										Delete Room
+									</button>
+									<button
+										onClick={() => {
+											dispatch(
+												updateHardwareAction({
+													pk: thisRoom.pk,
+													data: {
+														acSwitch1: hardware.acSwitch1,
+														acSwitch2: hardware.acSwitch2,
+														userReq: hardware.userReq,
+														resetFactoryReq: hardware.resetFactoryReq,
+														rebootReq: true,
+													},
+												})
+											)
+										}}
+										className='px-2 py-1 bg-green-500 rounded-md w-full text-white font-semibold'>
+										Reboot Hardware
+									</button>
+								</div>
+							}
+							title='Room Config'
+							trigger='click'
+							destroyTooltipOnHide>
 							<span className='underline text-blue-600 cursor-pointer'>{roomName}</span>
-						</Popconfirm>
+						</Popover>
 					</h1>
 					<div>
 						{thisRoom?.isUsed ? (
@@ -363,6 +400,9 @@ const RoomInfo = () => {
 										data: {
 											acSwitch1: e,
 											acSwitch2: hardware.acSwitch2,
+											userReq: hardware.userReq,
+											resetFactoryReq: hardware.resetFactoryReq,
+											rebootReq: hardware.rebootReq,
 										},
 									})
 								)
@@ -387,6 +427,9 @@ const RoomInfo = () => {
 										data: {
 											acSwitch1: hardware.acSwitch1,
 											acSwitch2: e,
+											userReq: hardware.userReq,
+											resetFactoryReq: hardware.resetFactoryReq,
+											rebootReq: hardware.rebootReq,
 										},
 									})
 								)
@@ -396,7 +439,33 @@ const RoomInfo = () => {
 							style={{ backgroundColor: hardware?.acSwitch2 ? 'green' : 'red' }}
 						/>
 					</div>
-					<div></div>
+					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<ImSwitch
+							className={`${
+								hardware?.userReq ? 'text-green-600' : 'text-red-600'
+							} text-7xl transition-all`}
+						/>
+						<h1 className='font-semibold text-2xl text-center'>User Request</h1>
+						<Switch
+							onChange={(e) => {
+								dispatch(
+									updateHardwareAction({
+										pk: thisRoom.pk,
+										data: {
+											acSwitch1: hardware.acSwitch1,
+											acSwitch2: hardware.acSwitch2,
+											userReq: e,
+											resetFactoryReq: hardware.resetFactoryReq,
+											rebootReq: hardware.rebootReq,
+										},
+									})
+								)
+								setHardware({ ...hardware, userReq: e })
+							}}
+							checked={hardware?.userReq}
+							style={{ backgroundColor: hardware?.userReq ? 'green' : 'red' }}
+						/>
+					</div>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
 						<div className='w-full flex items-center justify-end'>
 							<Popover
