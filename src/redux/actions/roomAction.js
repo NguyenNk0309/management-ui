@@ -2,6 +2,7 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import roomService from '../../services/roomService'
 import { ADMIN_ROLE, USER_ID } from '../../utils/constant'
 import {
+	GET_AMPERE_VOLTAGE_HISTORIES,
 	GET_HARDWARE_HISTORIES,
 	GET_HARDWARE_LIMIT,
 	GET_MY_ROOMS,
@@ -41,6 +42,7 @@ export function updateHardwareAction(payload) {
 			}
 		} catch (error) {
 			// alert('Update Hardware Fail')
+			dispatch(openLoadingAction())
 		}
 	}
 }
@@ -94,6 +96,19 @@ export function getPowerAndWaterConsumptionHistoriesAction(payload) {
 			const { status, data } = await roomService.getPowerAndWaterConsumptionHistories(payload)
 			if (status === 200) {
 				dispatch({ type: GET_POWER_WATER_HISTORIES, payload: data.data })
+			}
+		} catch (error) {}
+		dispatch(closeLoadingAction())
+	}
+}
+
+export function getAmpereAndVoltageHistoriesAction(payload) {
+	return async (dispatch, getState) => {
+		dispatch(openLoadingAction())
+		try {
+			const { status, data } = await roomService.getAmpereAndVoltageHistories(payload)
+			if (status === 200) {
+				dispatch({ type: GET_AMPERE_VOLTAGE_HISTORIES, payload: data.data })
 			}
 		} catch (error) {}
 		dispatch(closeLoadingAction())

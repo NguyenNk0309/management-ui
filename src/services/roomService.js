@@ -57,6 +57,15 @@ const roomService = {
 			},
 		})
 	},
+	getAmpereAndVoltageHistories(data) {
+		return axios({
+			url: `${LINK_API}/room/${data.roomPk}/ampere-voltage-histories?timeFilter=${data.timeFilter}`,
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem(ACCESS_TOKEN)}`,
+			},
+		})
+	},
 	deleteRoomByPk(roomPk) {
 		return axios({
 			url: `${LINK_API}/room/delete/${roomPk}`,

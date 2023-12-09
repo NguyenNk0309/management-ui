@@ -15,13 +15,24 @@ import { ImSwitch } from 'react-icons/im'
 import { Calendar, Popconfirm, Popover, Switch, Tabs } from 'antd'
 import {
 	deleteRoomAction,
+	getAmpereAndVoltageHistoriesAction,
 	getHardwareLimitAction,
 	getPowerAndWaterConsumptionHistoriesAction,
 	updateHardwareAction,
 	updateRoomNameAction,
 } from '../redux/actions/roomAction'
-import { Bar } from 'react-chartjs-2'
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
+import { Bar, Line } from 'react-chartjs-2'
+import {
+	Chart as ChartJS,
+	CategoryScale,
+	LinearScale,
+	BarElement,
+	Title,
+	Tooltip,
+	Legend,
+	PointElement,
+	LineElement,
+} from 'chart.js'
 import moment from 'moment/moment'
 import dayjs from 'dayjs'
 import HardwareLimitEditor from '../components/HardwareLimitEditor'
@@ -47,7 +58,7 @@ const defaultHardwareValue = {
 	rebootReq: false,
 }
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend)
 
 const options = {
 	responsive: true,
@@ -88,8 +99,29 @@ const options = {
 	},
 }
 
+const options2 = {
+	plugins: { tooltip: { enabled: false } },
+	elements: {
+		line: {
+			tension: 0.5,
+		},
+	},
+	scales: {
+		x: {
+			grid: {
+				display: false,
+			},
+			ticks: {
+				display: false,
+			},
+		},
+	},
+}
+
 const RoomInfo = () => {
-	const { myRooms, powerAndWaterHistories, hardwareLimit, roomName } = useSelector((state) => state.roomReducer)
+	const { myRooms, powerAndWaterHistories, hardwareLimit, roomName, ampereVoltageHistories } = useSelector(
+		(state) => state.roomReducer
+	)
 	const dispatch = useDispatch()
 	const pathVariable = useParams().token
 
@@ -124,6 +156,12 @@ const RoomInfo = () => {
 					timeFilter: moment().format('yyyy-MM-DD'),
 				})
 			)
+			dispatch(
+				getAmpereAndVoltageHistoriesAction({
+					roomPk: thisRoom.pk,
+					timeFilter: moment().format('yyyy-MM-DD'),
+				})
+			)
 		}
 		return () => {
 			if (stompClient.connected) {
@@ -131,6 +169,28 @@ const RoomInfo = () => {
 			}
 		}
 	}, [pathVariable, myRooms.length])
+
+	function ampereAndVoltageHistoriesData() {
+		console.log(ampereVoltageHistories)
+		return {
+			labels: ampereVoltageHistories,
+			datasets: [
+				{
+					label: 'Ampere',
+					data: ampereVoltageHistories.map((item) => item?.ampere),
+					borderColor: 'rgb(142, 68, 199)',
+					pointStyle: false,
+				},
+				{
+					label: 'Voltage',
+					data: ampereVoltageHistories.map((item) => item?.voltage),
+					borderColor: 'rgb(55, 217, 98)',
+
+					pointStyle: false,
+				},
+			],
+		}
+	}
 
 	function powerAndWaterConsumptionData(labels) {
 		return {
@@ -190,12 +250,12 @@ const RoomInfo = () => {
 								<div className='flex flex-col gap-3 items-start'>
 									<button
 										onClick={() => {
-											let roomName = prompt('Please Enter Your New Name:', thisRoom.name)
-											if (roomName !== null && roomName.trim() !== '') {
+											let name = prompt('Please Enter Your New Name:', roomName)
+											if (name !== null && name.trim() !== '') {
 												dispatch(
 													updateRoomNameAction({
 														roomPk: thisRoom.pk,
-														roomName: roomName.trim(),
+														roomName: name.trim(),
 													})
 												)
 											}
@@ -616,6 +676,10 @@ const RoomInfo = () => {
 					}}
 					items={items}
 				/>
+			</div>
+			<div className='flex flex-col gap-4'>
+				<h1 className='text-4xl'>Ampere And Voltage Consumption</h1>
+				<Line options={options2} data={ampereAndVoltageHistoriesData()} />
 			</div>
 		</div>
 	)
