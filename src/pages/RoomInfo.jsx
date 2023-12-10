@@ -100,7 +100,16 @@ const options = {
 }
 
 const options2 = {
-	plugins: { tooltip: { enabled: false } },
+	plugins: {
+		tooltip: {
+			titleFont: { size: 0 },
+		},
+	},
+	interaction: {
+		intersect: false,
+		mode: 'nearest',
+		axis: 'x',
+	},
 	elements: {
 		line: {
 			tension: 0.5,
@@ -113,6 +122,34 @@ const options2 = {
 			},
 			ticks: {
 				display: false,
+			},
+		},
+		y: {
+			type: 'linear',
+			display: true,
+			position: 'left',
+			title: {
+				display: true,
+				align: 'end',
+				text: 'Amp',
+				color: 'rgb(142, 68, 199)',
+				font: {
+					size: 20,
+				},
+			},
+		},
+		y1: {
+			type: 'linear',
+			display: true,
+			position: 'right',
+			title: {
+				display: true,
+				align: 'end',
+				text: 'Volt',
+				color: 'rgb(55, 217, 98)',
+				font: {
+					size: 20,
+				},
 			},
 		},
 	},
@@ -179,13 +216,14 @@ const RoomInfo = () => {
 					data: ampereVoltageHistories.map((item) => item?.ampere),
 					borderColor: 'rgb(142, 68, 199)',
 					pointStyle: false,
+					yAxisID: 'y',
 				},
 				{
 					label: 'Voltage',
 					data: ampereVoltageHistories.map((item) => item?.voltage),
 					borderColor: 'rgb(55, 217, 98)',
-
 					pointStyle: false,
+					yAxisID: 'y1',
 				},
 			],
 		}
