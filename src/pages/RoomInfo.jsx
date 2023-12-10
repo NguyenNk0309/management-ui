@@ -12,12 +12,13 @@ import { IoMdMore } from 'react-icons/io'
 import { WiHumidity } from 'react-icons/wi'
 import { MdGasMeter } from 'react-icons/md'
 import { ImSwitch } from 'react-icons/im'
-import { Calendar, Popconfirm, Popover, Switch, Tabs } from 'antd'
+import { Calendar, Popconfirm, Popover, Slider, Switch, Tabs } from 'antd'
 import {
 	deleteRoomAction,
 	getAmpereAndVoltageHistoriesAction,
 	getHardwareLimitAction,
 	getPowerAndWaterConsumptionHistoriesAction,
+	scaleAmpVoltAction,
 	updateHardwareAction,
 	updateRoomNameAction,
 } from '../redux/actions/roomAction'
@@ -166,6 +167,7 @@ const RoomInfo = () => {
 	const [thisRoom, setThisRoom] = useState()
 	const [activeTab, setActiveTab] = useState('day')
 	const [calendar, setCalendar] = useState({ display: moment().format('yyyy-MM-DD'), value: dayjs() })
+	const [ampVoltSlider, setAmpVoltSlider] = useState([0, 100])
 
 	useEffect(() => {
 		setHardware(defaultHardwareValue)
@@ -206,6 +208,10 @@ const RoomInfo = () => {
 			}
 		}
 	}, [pathVariable, myRooms.length])
+
+	useEffect(() => {
+		dispatch(scaleAmpVoltAction(ampVoltSlider))
+	}, [ampVoltSlider])
 
 	function ampereAndVoltageHistoriesData() {
 		return {
@@ -716,6 +722,13 @@ const RoomInfo = () => {
 			</div>
 			<div className='flex flex-col gap-4'>
 				<h1 className='text-4xl'>Ampere And Voltage Consumption</h1>
+				<Slider
+					range
+					value={ampVoltSlider}
+					onChange={(value) => {
+						setAmpVoltSlider(value)
+					}}
+				/>
 				<Line options={options2} data={ampereAndVoltageHistoriesData()} />
 			</div>
 		</div>

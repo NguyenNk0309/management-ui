@@ -5,6 +5,7 @@ import {
 	GET_MY_ROOMS,
 	GET_NEW_UPDATED_ROOM_NAME,
 	GET_POWER_WATER_HISTORIES,
+	SCALE_AMP_VOLT,
 } from '../constants/roomConstant'
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
 	hardwareHistories: [],
 	powerAndWaterHistories: [],
 	ampereVoltageHistories: [],
+	ampereVoltageHistoriesClone: [],
 	hardwareLimit: [],
 	roomName: '',
 }
@@ -41,6 +43,16 @@ export default function roomReducer(state = initialState, { type, payload }) {
 		}
 		case GET_AMPERE_VOLTAGE_HISTORIES: {
 			newState.ampereVoltageHistories = payload
+			newState.ampereVoltageHistoriesClone = payload
+			return newState
+		}
+		case SCALE_AMP_VOLT: {
+			const newLength0 = (payload[0] * newState.ampereVoltageHistoriesClone.length) / 100
+			const newLength1 = (payload[1] * newState.ampereVoltageHistoriesClone.length) / 100
+			newState.ampereVoltageHistories = newState.ampereVoltageHistoriesClone.slice(
+				Math.round(newLength0),
+				Math.round(newLength1)
+			)
 			return newState
 		}
 		default:

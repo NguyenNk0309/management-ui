@@ -8,6 +8,7 @@ import {
 	GET_MY_ROOMS,
 	GET_NEW_UPDATED_ROOM_NAME,
 	GET_POWER_WATER_HISTORIES,
+	SCALE_AMP_VOLT,
 } from '../constants/roomConstant'
 import { actionOpenModal } from './ModalAction'
 import { AiFillCopy } from 'react-icons/ai'
@@ -194,5 +195,12 @@ export function updateRoomNameAction(payload) {
 		}
 		await dispatch(getAllRoomsOfUserAction())
 		dispatch(closeLoadingAction())
+	}
+}
+
+export function scaleAmpVoltAction(payload) {
+	return {
+		type: SCALE_AMP_VOLT,
+		payload,
 	}
 }
