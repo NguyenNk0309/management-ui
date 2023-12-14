@@ -1,6 +1,5 @@
 import { Menu } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { IoTerminal } from 'react-icons/io5'
 import { useDispatch, useSelector } from 'react-redux'
 import { AiOutlineUser, AiOutlinePlusSquare } from 'react-icons/ai'
 import { BsDoorOpen } from 'react-icons/bs'
@@ -11,6 +10,7 @@ import { ADMIN_ROLE } from '../utils/constant'
 import { getAllRoomsOfUserAction } from '../redux/actions/roomAction'
 import { actionOpenModal } from '../redux/actions/ModalAction'
 import CreateRoom from '../pages/CreateRoom'
+import { FaReact } from 'react-icons/fa6'
 
 const HomeTemplate = () => {
 	const dispatch = useDispatch()
@@ -130,8 +130,8 @@ const HomeTemplate = () => {
 			<div className='w-2/12 h-screen fixed top-0 left-0 bg-violet-500 py-8 p-3 flex flex-col justify-between'>
 				<div>
 					<div className='flex items-center justify-start gap-4 border-b-[1px] border-white pb-6'>
-						<IoTerminal className='w-8 h-8 text-white' />
-						<h1 className='text-lg text-white font-semibold'>Management</h1>
+						<FaReact className='w-8 h-8 text-white' />
+						<h1 className='text-lg text-white font-semibold'>Smart Room</h1>
 					</div>
 					<div className='rounded-md pt-6'>
 						<Menu

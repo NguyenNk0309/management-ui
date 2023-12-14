@@ -47,7 +47,6 @@ const UserInfo = () => {
 
 			<div className='flex gap-4 items-start'>
 				<div className='w-4/12 shadow-lg shadow-gray-500 p-4 rounded-lg flex flex-col'>
-					<h1>Profile Image</h1>
 					<div className='w-full flex justify-center my-8'>
 						<img
 							className='w-40 h-40 rounded-full'
@@ -55,12 +54,12 @@ const UserInfo = () => {
 							alt=''
 						/>
 					</div>
-					<button className='bg-blue-500 rounded-lg shadow-lg shadow-gray-500 py-2 px-4 font-semibold text-white'>
-						Change Other Image
-					</button>
+					<span className='text-center font-semibold text-lg'>
+						Welcome Back, <span className='text-blue-500'>{myInfo.fullName}</span>
+					</span>
 				</div>
 				<div className='w-8/12 shadow-lg shadow-gray-500 p-4 rounded-lg'>
-					<h1>Account Detail</h1>
+					<h1 className='font-semibold text-lg'>Account Detail</h1>
 					<form
 						onSubmit={formik.handleSubmit}
 						className='flex flex-col gap-4 items-center justify-center grow px-10 my-8'>
