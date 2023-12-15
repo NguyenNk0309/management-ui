@@ -62,7 +62,6 @@ const defaultHardwareValue = {
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend)
 
 const options = {
-	responsive: true,
 	plugins: {
 		legend: {
 			position: 'top',
