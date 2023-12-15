@@ -62,11 +62,7 @@ const defaultHardwareValue = {
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend)
 
 const options = {
-	plugins: {
-		legend: {
-			position: 'top',
-		},
-	},
+	plugins: {},
 	scales: {
 		y: {
 			type: 'linear',
