@@ -63,6 +63,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineEleme
 
 const options = {
 	plugins: {},
+	maintainAspectRatio: false,
 	scales: {
 		y: {
 			type: 'linear',
@@ -262,17 +263,29 @@ const RoomInfo = () => {
 		{
 			key: 'day',
 			label: 'DAY',
-			children: <Bar options={options} data={powerAndWaterConsumptionData(HOURS_IN_DAY)} />,
+			children: (
+				<div className='w-full h-[650px]'>
+					<Bar options={options} data={powerAndWaterConsumptionData(HOURS_IN_DAY)} />
+				</div>
+			),
 		},
 		{
 			key: 'month',
 			label: 'MONTH',
-			children: <Bar options={options} data={powerAndWaterConsumptionData(DAYS_IN_MONTH)} />,
+			children: (
+				<div className='w-full  h-[650px]'>
+					<Bar options={options} data={powerAndWaterConsumptionData(DAYS_IN_MONTH)} />
+				</div>
+			),
 		},
 		{
 			key: 'year',
 			label: 'YEAR',
-			children: <Bar options={options} data={powerAndWaterConsumptionData(MONTHS_IN_YEAR)} />,
+			children: (
+				<div className='w-full  h-[650px]'>
+					<Bar options={options} data={powerAndWaterConsumptionData(MONTHS_IN_YEAR)} />
+				</div>
+			),
 		},
 	]
 
@@ -543,7 +556,15 @@ const RoomInfo = () => {
 								hardware?.userReq ? 'text-green-600' : 'text-red-600'
 							} text-7xl transition-all`}
 						/>
-						<h1 className='font-semibold text-2xl text-center'>User Request</h1>
+						<h1 className='font-semibold text-2xl text-center'>
+							Mode:{' '}
+							<span
+								className={`${
+									hardware?.userReq ? 'text-green-600' : 'text-red-600'
+								} text-2xl transition-all`}>
+								{hardware?.userReq ? 'Manual' : 'Auto'}
+							</span>
+						</h1>
 						<Switch
 							onChange={(e) => {
 								dispatch(
