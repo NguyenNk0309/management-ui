@@ -4,9 +4,9 @@ import { useParams } from 'react-router-dom'
 import SockJS from 'sockjs-client'
 import { DAYS_IN_MONTH, HOURS_IN_DAY, LINK_API, MONTHS_IN_YEAR, formatTime } from '../utils/constant'
 import { over } from 'stompjs'
-import { FaFire, FaTemperatureFull, FaWater } from 'react-icons/fa6'
+import { FaFire, FaMoneyBillWave, FaTemperatureFull, FaWater } from 'react-icons/fa6'
 import { FaCalendarAlt } from 'react-icons/fa'
-import { MdOutlineElectricalServices } from 'react-icons/md'
+import { MdElectricBolt, MdOutlineElectricalServices } from 'react-icons/md'
 import { GrStatusGoodSmall } from 'react-icons/gr'
 import { IoMdMore } from 'react-icons/io'
 import { WiHumidity } from 'react-icons/wi'
@@ -370,131 +370,39 @@ const RoomInfo = () => {
 				</div>
 				<div className='grid grid-cols-5 gap-8'>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
-						<div className='w-full flex items-center justify-end'>
-							<Popover
-								className='cursor-pointer'
-								content={
-									<HardwareLimitEditor
-										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V0')}
-										hardwareId={'V0'}
-										roomPk={thisRoom?.pk}
-									/>
-								}
-								title='Limit Setup'
-								trigger='click'
-								destroyTooltipOnHide>
-								<IoMdMore className='text-3xl' />
-							</Popover>
-						</div>
-						<MdGasMeter className='text-blue-500 text-7xl' />
-						<h1 className='font-semibold text-2xl text-center'>Gas Sensor</h1>
-						<h1 className='font-semibold text-2xl'>{hardware?.gasSensorValue}</h1>
-					</div>
-					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
-						<div className='w-full flex items-center justify-end'>
-							<Popover
-								className='cursor-pointer'
-								content={
-									<HardwareLimitEditor
-										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V5')}
-										hardwareId={'V5'}
-										roomPk={thisRoom?.pk}
-									/>
-								}
-								title='Limit Setup'
-								trigger='click'
-								destroyTooltipOnHide>
-								<IoMdMore className='text-3xl' />
-							</Popover>
-						</div>
-						<FaWater className='text-blue-500 text-7xl' />
-						<h1 className='font-semibold text-2xl text-center'>Water Sensor</h1>
-						<h1 className='font-semibold text-2xl'>{hardware?.waterSensorValue}</h1>
-					</div>
-					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
-						<div className='w-full flex items-center justify-end'>
-							<Popover
-								className='cursor-pointer'
-								content={
-									<HardwareLimitEditor
-										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V3')}
-										hardwareId={'V3'}
-										roomPk={thisRoom?.pk}
-									/>
-								}
-								title='Limit Setup'
-								trigger='click'
-								destroyTooltipOnHide>
-								<IoMdMore className='text-3xl' />
-							</Popover>
-						</div>
-						<FaTemperatureFull className='text-green-500 text-7xl' />
-						<h1 className='font-semibold text-2xl text-center'>Temperature Sensor</h1>
-						<h1 className='font-semibold text-2xl'>{hardware?.temperatureSensorValue}</h1>
-					</div>
-					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
-						<div className='w-full flex items-center justify-end'>
-							<Popover
-								className='cursor-pointer'
-								content={
-									<HardwareLimitEditor
-										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V4')}
-										hardwareId={'V4'}
-										roomPk={thisRoom?.pk}
-									/>
-								}
-								title='Limit Setup'
-								trigger='click'
-								destroyTooltipOnHide>
-								<IoMdMore className='text-3xl' />
-							</Popover>
-						</div>
-						<WiHumidity className='text-green-500 text-7xl' />
-						<h1 className='font-semibold text-2xl text-center'>Humidity Sensor</h1>
-						<h1 className='font-semibold text-2xl'>{hardware?.humiditySensorValue}</h1>
-					</div>
-					<div></div>
-					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
-						<div className='w-full flex items-center justify-end'>
-							<Popover
-								className='cursor-pointer'
-								content={
-									<HardwareLimitEditor
-										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V1')}
-										hardwareId={'V1'}
-										roomPk={thisRoom?.pk}
-									/>
-								}
-								title='Limit Setup'
-								trigger='click'
-								destroyTooltipOnHide>
-								<IoMdMore className='text-3xl' />
-							</Popover>
-						</div>
-						<MdOutlineElectricalServices className='text-orange-500 text-7xl' />
-						<h1 className='font-semibold text-2xl text-center'>Voltage Sensor</h1>
-						<h1 className='font-semibold text-2xl'>{hardware?.voltageSensorValue}</h1>
-					</div>
-					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
-						<div className='w-full flex items-center justify-end'>
-							<Popover
-								className='cursor-pointer'
-								content={
-									<HardwareLimitEditor
-										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V2')}
-										hardwareId={'V2'}
-										roomPk={thisRoom?.pk}
-									/>
-								}
-								title='Limit Setup'
-								trigger='click'
-								destroyTooltipOnHide>
-								<IoMdMore className='text-3xl' />
-							</Popover>
-						</div>
-						<MdOutlineElectricalServices className='text-orange-500 text-7xl' />
-						<h1 className='font-semibold text-2xl text-center'>Ampere Sensor</h1>
-						<h1 className='font-semibold text-2xl'>{hardware?.ampereSensorValue}</h1>
+						<ImSwitch
+							className={`${
+								hardware?.userReq ? 'text-green-600' : 'text-red-600'
+							} text-7xl transition-all`}
+						/>
+						<h1 className='font-semibold text-2xl text-center'>
+							Mode:{' '}
+							<span
+								className={`${
+									hardware?.userReq ? 'text-green-600' : 'text-red-600'
+								} text-2xl transition-all`}>
+								{hardware?.userReq ? 'Manual' : 'Auto'}
+							</span>
+						</h1>
+						<Switch
+							onChange={(e) => {
+								dispatch(
+									updateHardwareAction({
+										pk: thisRoom.pk,
+										data: {
+											acSwitch1: hardware.acSwitch1,
+											acSwitch2: hardware.acSwitch2,
+											userReq: e,
+											resetFactoryReq: hardware.resetFactoryReq,
+											rebootReq: hardware.rebootReq,
+										},
+									})
+								)
+								setHardware({ ...hardware, userReq: e })
+							}}
+							checked={hardware?.userReq}
+							style={{ backgroundColor: hardware?.userReq ? 'green' : 'red' }}
+						/>
 					</div>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
 						<ImSwitch
@@ -550,41 +458,146 @@ const RoomInfo = () => {
 							style={{ backgroundColor: hardware?.acSwitch2 ? 'green' : 'red' }}
 						/>
 					</div>
+					<div></div>
+					<div></div>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
-						<ImSwitch
-							className={`${
-								hardware?.userReq ? 'text-green-600' : 'text-red-600'
-							} text-7xl transition-all`}
-						/>
-						<h1 className='font-semibold text-2xl text-center'>
-							Mode:{' '}
-							<span
-								className={`${
-									hardware?.userReq ? 'text-green-600' : 'text-red-600'
-								} text-2xl transition-all`}>
-								{hardware?.userReq ? 'Manual' : 'Auto'}
-							</span>
-						</h1>
-						<Switch
-							onChange={(e) => {
-								dispatch(
-									updateHardwareAction({
-										pk: thisRoom.pk,
-										data: {
-											acSwitch1: hardware.acSwitch1,
-											acSwitch2: hardware.acSwitch2,
-											userReq: e,
-											resetFactoryReq: hardware.resetFactoryReq,
-											rebootReq: hardware.rebootReq,
-										},
-									})
-								)
-								setHardware({ ...hardware, userReq: e })
-							}}
-							checked={hardware?.userReq}
-							style={{ backgroundColor: hardware?.userReq ? 'green' : 'red' }}
-						/>
+						<div className='w-full flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V0')}
+										hardwareId={'V0'}
+										roomPk={thisRoom?.pk}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
+						<MdGasMeter className='text-blue-500 text-7xl' />
+						<h1 className='font-semibold text-2xl text-center'>Gas</h1>
+						<h1 className='font-semibold text-2xl'>{hardware?.gasSensorValue}</h1>
 					</div>
+					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V5')}
+										hardwareId={'V5'}
+										roomPk={thisRoom?.pk}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
+						<FaWater className='text-blue-500 text-7xl' />
+						<h1 className='font-semibold text-2xl text-center'>Water</h1>
+						<h1 className='font-semibold text-2xl'>{hardware?.waterSensorValue}</h1>
+					</div>
+					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V3')}
+										hardwareId={'V3'}
+										roomPk={thisRoom?.pk}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
+						<FaTemperatureFull className='text-green-500 text-7xl' />
+						<h1 className='font-semibold text-2xl text-center'>Temperature</h1>
+						<h1 className='font-semibold text-2xl'>{hardware?.temperatureSensorValue}</h1>
+					</div>
+					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V4')}
+										hardwareId={'V4'}
+										roomPk={thisRoom?.pk}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
+						<WiHumidity className='text-green-500 text-7xl' />
+						<h1 className='font-semibold text-2xl text-center'>Humidity</h1>
+						<h1 className='font-semibold text-2xl'>{hardware?.humiditySensorValue}</h1>
+					</div>
+					<div></div>
+					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V1')}
+										hardwareId={'V1'}
+										roomPk={thisRoom?.pk}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
+						<MdOutlineElectricalServices className='text-orange-500 text-7xl' />
+						<h1 className='font-semibold text-2xl text-center'>Voltage</h1>
+						<h1 className='font-semibold text-2xl'>{hardware?.voltageSensorValue}</h1>
+					</div>
+					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
+						<div className='w-full flex items-center justify-end'>
+							<Popover
+								className='cursor-pointer'
+								content={
+									<HardwareLimitEditor
+										hardwareLimit={hardwareLimit.find((item) => item?.hardwareId === 'V2')}
+										hardwareId={'V2'}
+										roomPk={thisRoom?.pk}
+									/>
+								}
+								title='Limit Setup'
+								trigger='click'
+								destroyTooltipOnHide>
+								<IoMdMore className='text-3xl' />
+							</Popover>
+						</div>
+						<MdOutlineElectricalServices className='text-orange-500 text-7xl' />
+						<h1 className='font-semibold text-2xl text-center'>Ampere</h1>
+						<h1 className='font-semibold text-2xl'>{hardware?.ampereSensorValue}</h1>
+					</div>
+					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4 col-span-2'>
+						<span className='text-3xl opacity-0 cursor-default'>hidden</span>
+						<MdElectricBolt className='text-orange-500 text-7xl' />
+						<h1 className='font-semibold text-2xl text-center'>Watt</h1>
+						<h1 className='font-semibold text-2xl'>
+							{hardware?.ampereSensorValue === 'N/A' || hardware?.voltageSensorValue === 'N/A'
+								? 'N/A'
+								: hardware?.ampereSensorValue * hardware?.voltageSensorValue}
+						</h1>
+					</div>
+					<div></div>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
 						<div className='w-full flex items-center justify-end'>
 							<Popover
@@ -603,7 +616,7 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<FaFire className='text-red-500 text-7xl' />
-						<h1 className='font-semibold text-2xl text-center'>Fire Sensor 1</h1>
+						<h1 className='font-semibold text-2xl text-center'>Fire 1</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.fireSensor1Value}</h1>
 					</div>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
@@ -624,7 +637,7 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<FaFire className='text-red-500 text-7xl' />
-						<h1 className='font-semibold text-2xl text-center'>Fire Sensor 2</h1>
+						<h1 className='font-semibold text-2xl text-center'>Fire 2</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.fireSensor2Value}</h1>
 					</div>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
@@ -645,7 +658,7 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<FaFire className='text-red-500 text-7xl' />
-						<h1 className='font-semibold text-2xl text-center'>Fire Sensor 3</h1>
+						<h1 className='font-semibold text-2xl text-center'>Fire 3</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.fireSensor3Value}</h1>
 					</div>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
@@ -666,7 +679,7 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<FaFire className='text-red-500 text-7xl' />
-						<h1 className='font-semibold text-2xl text-center'>Fire Sensor 4</h1>
+						<h1 className='font-semibold text-2xl text-center'>Fire 4</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.fireSensor4Value}</h1>
 					</div>
 					<div className='h-64 bg-black bg-opacity-10 rounded-2xl flex flex-col gap-4 items-center justify-center shadow-lg shadow-slate-600 p-4'>
@@ -687,10 +700,21 @@ const RoomInfo = () => {
 							</Popover>
 						</div>
 						<FaFire className='text-red-500 text-7xl' />
-						<h1 className='font-semibold text-2xl text-center'>Fire Sensor 5</h1>
+						<h1 className='font-semibold text-2xl text-center'>Fire 5</h1>
 						<h1 className='font-semibold text-2xl'>{hardware?.fireSensor5Value}</h1>
 					</div>
 				</div>
+			</div>
+			<div className='flex flex-col gap-4'>
+				<h1 className='text-4xl'>Ampere And Voltage Consumption</h1>
+				<Slider
+					range
+					value={ampVoltSlider}
+					onChange={(value) => {
+						setAmpVoltSlider(value)
+					}}
+				/>
+				<Line options={options2} data={ampereAndVoltageHistoriesData()} />
 			</div>
 			<div className='flex flex-col gap-4'>
 				<div className='flex items-center gap-4'>
@@ -735,17 +759,6 @@ const RoomInfo = () => {
 					}}
 					items={items}
 				/>
-			</div>
-			<div className='flex flex-col gap-4'>
-				<h1 className='text-4xl'>Ampere And Voltage Consumption</h1>
-				<Slider
-					range
-					value={ampVoltSlider}
-					onChange={(value) => {
-						setAmpVoltSlider(value)
-					}}
-				/>
-				<Line options={options2} data={ampereAndVoltageHistoriesData()} />
 			</div>
 		</div>
 	)

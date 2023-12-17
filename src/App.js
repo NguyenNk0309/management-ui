@@ -19,6 +19,9 @@ import SockJS from 'sockjs-client'
 import { over } from 'stompjs'
 import { notification } from 'antd'
 import { PiWarningCircleFill } from 'react-icons/pi'
+import { actionOpenModal } from './redux/actions/ModalAction'
+import warning from './assets/imgs/Blinking_warning.gif'
+import warningSound from './assets/imgs/beep-warning-6387.mp3'
 
 function App() {
 	const dispatch = useDispatch()
@@ -36,6 +39,8 @@ function App() {
 	}, [])
 
 	useEffect(() => {
+		const sound = new Audio(warningSound)
+
 		const socket = new SockJS(LINK_API + '/ws/registry')
 		const stompClient = over(socket)
 
@@ -52,12 +57,73 @@ function App() {
 
 				stompClient.subscribe(subscribeURL, (response) => {
 					const data = JSON.parse(response.body)
-					notification.open({
-						message: <span className='font-semibold'>{data.title}</span>,
-						description: data.description,
-						icon: <PiWarningCircleFill className='text-blue-500' />,
-						duration: 20,
-					})
+					if (
+						data.sensorId !== 'V0' &&
+						data.sensorId !== 'V6' &&
+						data.sensorId !== 'V7' &&
+						data.sensorId !== 'V8' &&
+						data.sensorId !== 'V9' &&
+						data.sensorId !== 'V10'
+					) {
+						notification.open({
+							message: <span className='font-semibold'>{data.title}</span>,
+							description: data.description,
+							icon: <PiWarningCircleFill className='text-blue-500' />,
+							duration: 10,
+						})
+					} else if (data.sensorId === 'V0') {
+						sound.play()
+						dispatch(
+							actionOpenModal(
+								null,
+								<div className='flex flex-col justify-center items-center gap-5'>
+									<img className='h-[300px] w-[300px]' src={warning} alt='' />
+									<h1 className='text-red-600 font-semibold text-4xl'>
+										Gas Leaking Detected In{' '}
+										{
+											<span className='text-orange-600 font-semibold text-4xl underline'>
+												{data.roomName}
+											</span>
+										}
+										!!!
+									</h1>
+									<h1 className='text-red-600 font-semibold text-3xl'>
+										Please Evacuate The Area Immediately
+									</h1>
+								</div>,
+								false
+							)
+						)
+					} else if (
+						data.sensorId === 'V6' ||
+						data.sensorId === 'V7' ||
+						data.sensorId === 'V8' ||
+						data.sensorId === 'V9' ||
+						data.sensorId === 'V10'
+					) {
+						sound.play()
+						dispatch(
+							actionOpenModal(
+								null,
+								<div className='flex flex-col justify-center items-center gap-5'>
+									<img className='h-[300px] w-[300px]' src={warning} alt='' />
+									<h1 className='text-red-600 font-semibold text-4xl'>
+										Fire Detected In{' '}
+										{
+											<span className='text-orange-600 font-semibold text-4xl underline'>
+												{data.roomName}
+											</span>
+										}
+										!!!
+									</h1>
+									<h1 className='text-red-600 font-semibold text-3xl'>
+										Please Evacuate The Area Immediately
+									</h1>
+								</div>,
+								false
+							)
+						)
+					}
 				})
 			})
 		}

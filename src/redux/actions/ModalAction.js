@@ -1,9 +1,9 @@
 import { CLOSE_MODAL, OPEN_MODAL } from '../constants/modalConstant'
 
-export function actionOpenModal(title, Component) {
+export function actionOpenModal(title, Component, isDefaultWidth = true) {
 	return {
 		type: OPEN_MODAL,
-		payload: { title, Component },
+		payload: { title, Component, isDefaultWidth },
 	}
 }
 

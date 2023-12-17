@@ -13,6 +13,8 @@ import {
 import { actionOpenModal } from './ModalAction'
 import { AiFillCopy } from 'react-icons/ai'
 import { closeLoadingAction, openLoadingAction } from './loadingAction'
+import { PiWarningCircleFill } from 'react-icons/pi'
+import { notification } from 'antd'
 
 export function getAllRoomsOfUserAction() {
 	return async (dispatch, getState) => {
@@ -60,7 +62,16 @@ export function createRoomAction(payload) {
 					dispatch(
 						actionOpenModal(
 							'Room Register Token',
-							<CopyToClipboard text={data.data}>
+							<CopyToClipboard
+								onCopy={() => {
+									notification.open({
+										message: <span className='font-semibold'>Warning</span>,
+										description: <span>Copy Token Successfully</span>,
+										icon: <PiWarningCircleFill className='text-blue-500' />,
+										duration: 10,
+									})
+								}}
+								text={data.data}>
 								<div className='flex items-center gap-6 justify-center text-violet-500 font-semibold text-2xl cursor-pointer'>
 									<span className=''>{data.data}</span>
 									<AiFillCopy className='' />

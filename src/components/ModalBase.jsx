@@ -6,12 +6,12 @@ import { actionCloseModal } from '../redux/actions/ModalAction'
 
 const ModalBase = () => {
 	const dispatch = useDispatch()
-	const { isOpen, Content, title } = useSelector((state) => state.modalReducer)
+	const { isOpen, Content, title, isDefaultWidth } = useSelector((state) => state.modalReducer)
 
 	return (
 		<>
 			<Modal
-				width='80%'
+				width={isDefaultWidth ? '80%' : null}
 				centered={true}
 				footer={null}
 				zIndex={10}
