@@ -2,6 +2,8 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import roomService from '../../services/roomService'
 import { ADMIN_ROLE, USER_ID } from '../../utils/constant'
 import {
+	ASSIGN_STOMP_CLIENT,
+	CANCEL_REMIND,
 	GET_AMPERE_VOLTAGE_HISTORIES,
 	GET_HARDWARE_HISTORIES,
 	GET_HARDWARE_LIMIT,
@@ -41,10 +43,8 @@ export function updateHardwareAction(payload) {
 		try {
 			const { status, data } = await roomService.updateHardware(payload)
 			if (status === 200) {
-				// alert('Hardware Is Being Updated. Please Wait')
 			}
 		} catch (error) {
-			// alert('Update Hardware Fail')
 			dispatch(openLoadingAction())
 		}
 	}
@@ -212,6 +212,24 @@ export function updateRoomNameAction(payload) {
 export function scaleAmpVoltAction(payload) {
 	return {
 		type: SCALE_AMP_VOLT,
+		payload,
+	}
+}
+
+export function cancelRemindAction(payload, isEnableTimeout = true) {
+	return async (dispatch, getState) => {
+		dispatch({ type: CANCEL_REMIND, payload: { sensor: payload.sensor, status: payload.status } })
+		if (isEnableTimeout) {
+			setTimeout(() => {
+				dispatch({ type: CANCEL_REMIND, payload: payload.sensor })
+			}, payload.time)
+		}
+	}
+}
+
+export function assignStompClientAction(payload) {
+	return {
+		type: ASSIGN_STOMP_CLIENT,
 		payload,
 	}
 }

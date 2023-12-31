@@ -77,3 +77,6 @@ export function formatTime(type, time) {
 			break
 	}
 }
+
+export const GAS = 'GAS'
+export const FIRE = 'FIRE'

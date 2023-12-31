@@ -1,4 +1,7 @@
+import { FIRE, GAS } from '../../utils/constant'
 import {
+	ASSIGN_STOMP_CLIENT,
+	CANCEL_REMIND,
 	GET_AMPERE_VOLTAGE_HISTORIES,
 	GET_HARDWARE_HISTORIES,
 	GET_HARDWARE_LIMIT,
@@ -16,6 +19,9 @@ const initialState = {
 	ampereVoltageHistoriesClone: [],
 	hardwareLimit: [],
 	roomName: '',
+	isRemindGas: true,
+	isRemindFire: true,
+	stompClient: null,
 }
 
 export default function roomReducer(state = initialState, { type, payload }) {
@@ -53,6 +59,19 @@ export default function roomReducer(state = initialState, { type, payload }) {
 				Math.round(newLength0),
 				Math.round(newLength1)
 			)
+			return newState
+		}
+		case CANCEL_REMIND: {
+			if (payload.sensor === GAS) {
+				newState.isRemindGas = payload.status
+			}
+			if (payload.sensor === FIRE) {
+				newState.isRemindFire = payload.status
+			}
+			return newState
+		}
+		case ASSIGN_STOMP_CLIENT: {
+			newState.stompClient = payload
 			return newState
 		}
 		default:

@@ -12,7 +12,7 @@ import NotFound from './pages/NotFound'
 import UserInfo from './pages/UserInfo'
 import UserManagement from './pages/UserManagement'
 import RoomInfo from './pages/RoomInfo'
-import { ACCESS_TOKEN, ADMIN_ROLE, LINK_API, ROLE, USER_ID } from './utils/constant'
+import { ACCESS_TOKEN, ADMIN_ROLE, FIRE, GAS, LINK_API, ROLE, USER_ID } from './utils/constant'
 import HomeTemplate from './templates/HomeTemplate'
 import { validateToken } from './redux/actions/authenAction'
 import SockJS from 'sockjs-client'
@@ -20,8 +20,9 @@ import { over } from 'stompjs'
 import { notification } from 'antd'
 import { PiWarningCircleFill } from 'react-icons/pi'
 import { actionOpenModal } from './redux/actions/ModalAction'
-import warning from './assets/imgs/Blinking_warning.gif'
 import warningSound from './assets/imgs/beep-warning-6387.mp3'
+import ModalNotify from './components/ModalNotify'
+import { assignStompClientAction } from './redux/actions/roomAction'
 
 function App() {
 	const dispatch = useDispatch()
@@ -29,6 +30,7 @@ function App() {
 	const navigate = useNavigate()
 
 	const { isLoading } = useSelector((state) => state.loadingReducer)
+	const { isRemindGas, isRemindFire } = useSelector((state) => state.roomReducer)
 
 	useEffect(() => {
 		dispatch({ type: ASSIGN_NAVIGATE, payload: navigate })
@@ -41,14 +43,10 @@ function App() {
 	useEffect(() => {
 		const sound = new Audio(warningSound)
 
-		const socket = new SockJS(LINK_API + '/ws/registry')
-		const stompClient = over(socket)
+		if (localStorage.getItem(USER_ID) !== null && (isRemindGas || isRemindFire)) {
+			const socket = new SockJS(LINK_API + '/ws/registry')
+			const stompClient = over(socket)
 
-		if (!localStorage.getItem(USER_ID)) {
-			if (stompClient.connected) {
-				stompClient.disconnect()
-			}
-		} else {
 			stompClient.connect({}, () => {
 				const subscribeURL =
 					localStorage.getItem(ROLE) === ADMIN_ROLE
@@ -71,63 +69,37 @@ function App() {
 							icon: <PiWarningCircleFill className='text-blue-500' />,
 							duration: 10,
 						})
-					} else if (data.sensorId === 'V0') {
+					} else if (isRemindGas && data.sensorId === 'V0') {
 						sound.play()
 						dispatch(
 							actionOpenModal(
 								null,
-								<div className='flex flex-col justify-center items-center gap-5'>
-									<img className='h-[300px] w-[300px]' src={warning} alt='' />
-									<h1 className='text-red-600 font-semibold text-4xl'>
-										Gas Leaking Detected In{' '}
-										{
-											<span className='text-orange-600 font-semibold text-4xl underline'>
-												{data.roomName}
-											</span>
-										}
-										!!!
-									</h1>
-									<h1 className='text-red-600 font-semibold text-3xl'>
-										Please Evacuate The Area Immediately
-									</h1>
-								</div>,
+								<ModalNotify sensor={GAS} roomName={data.roomName} stompClient={stompClient} />,
 								false
 							)
 						)
 					} else if (
-						data.sensorId === 'V6' ||
-						data.sensorId === 'V7' ||
-						data.sensorId === 'V8' ||
-						data.sensorId === 'V9' ||
-						data.sensorId === 'V10'
+						isRemindFire &&
+						(data.sensorId === 'V6' ||
+							data.sensorId === 'V7' ||
+							data.sensorId === 'V8' ||
+							data.sensorId === 'V9' ||
+							data.sensorId === 'V10')
 					) {
 						sound.play()
 						dispatch(
 							actionOpenModal(
 								null,
-								<div className='flex flex-col justify-center items-center gap-5'>
-									<img className='h-[300px] w-[300px]' src={warning} alt='' />
-									<h1 className='text-red-600 font-semibold text-4xl'>
-										Fire Detected In{' '}
-										{
-											<span className='text-orange-600 font-semibold text-4xl underline'>
-												{data.roomName}
-											</span>
-										}
-										!!!
-									</h1>
-									<h1 className='text-red-600 font-semibold text-3xl'>
-										Please Evacuate The Area Immediately
-									</h1>
-								</div>,
+								<ModalNotify sensor={FIRE} roomName={data.roomName} stompClient={stompClient} />,
 								false
 							)
 						)
 					}
 				})
 			})
+			dispatch(assignStompClientAction(stompClient))
 		}
-	}, [localStorage.getItem(USER_ID)])
+	}, [localStorage.getItem(USER_ID), isRemindGas, isRemindFire])
 
 	return (
 		<div id='App' className='w-full min-h-screen'>

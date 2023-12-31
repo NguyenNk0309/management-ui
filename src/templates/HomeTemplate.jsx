@@ -6,8 +6,8 @@ import { BsDoorOpen } from 'react-icons/bs'
 import { GoSignOut } from 'react-icons/go'
 import { NavLink, Outlet } from 'react-router-dom'
 import { signOutAction } from '../redux/actions/authenAction'
-import { ADMIN_ROLE } from '../utils/constant'
-import { getAllRoomsOfUserAction } from '../redux/actions/roomAction'
+import { ADMIN_ROLE, FIRE, GAS } from '../utils/constant'
+import { cancelRemindAction, getAllRoomsOfUserAction } from '../redux/actions/roomAction'
 import { actionOpenModal } from '../redux/actions/ModalAction'
 import CreateRoom from '../pages/CreateRoom'
 import { FaReact } from 'react-icons/fa6'
@@ -15,7 +15,7 @@ import { FaReact } from 'react-icons/fa6'
 const HomeTemplate = () => {
 	const dispatch = useDispatch()
 	const { myInfo } = useSelector((state) => state.userReducer)
-	const { myRooms } = useSelector((state) => state.roomReducer)
+	const { myRooms, stompClient } = useSelector((state) => state.roomReducer)
 
 	const [menuOpenKey, setMenuOpenKey] = useState([window.location.pathname.split('/')[1]])
 
@@ -145,6 +145,11 @@ const HomeTemplate = () => {
 				</div>
 				<div
 					onClick={() => {
+						if (stompClient.connected) {
+							stompClient.disconnect()
+						}
+						dispatch(cancelRemindAction({ sensor: FIRE, status: true }, false))
+						dispatch(cancelRemindAction({ sensor: GAS, status: true }, false))
 						dispatch(signOutAction())
 					}}
 					className='flex items-center gap-4 text-white font-semibold text-2xl bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 cursor-pointer shadow-slate-600 shadow-lg'>

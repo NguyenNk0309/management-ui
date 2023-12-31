@@ -86,7 +86,7 @@ const options = {
 			title: {
 				display: true,
 				align: 'end',
-				text: 'm3',
+				text: 'Litre',
 				color: 'rgb(55, 217, 98)',
 				font: {
 					size: 20,
