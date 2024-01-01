@@ -48,6 +48,8 @@ function App() {
 			const stompClient = over(socket)
 
 			stompClient.connect({}, () => {
+				let counter = 0
+				let initialize = true
 				const subscribeURL =
 					localStorage.getItem(ROLE) === ADMIN_ROLE
 						? `/ws/topic/role/${localStorage.getItem(ROLE)}`
@@ -55,45 +57,50 @@ function App() {
 
 				stompClient.subscribe(subscribeURL, (response) => {
 					const data = JSON.parse(response.body)
-					if (
-						data.sensorId !== 'V0' &&
-						data.sensorId !== 'V6' &&
-						data.sensorId !== 'V7' &&
-						data.sensorId !== 'V8' &&
-						data.sensorId !== 'V9' &&
-						data.sensorId !== 'V10'
-					) {
-						notification.open({
-							message: <span className='font-semibold'>{data.title}</span>,
-							description: data.description,
-							icon: <PiWarningCircleFill className='text-blue-500' />,
-							duration: 10,
-						})
-					} else if (isRemindGas && data.sensorId === 'V0') {
-						sound.play()
-						dispatch(
-							actionOpenModal(
-								null,
-								<ModalNotify sensor={GAS} roomName={data.roomName} stompClient={stompClient} />,
-								false
+					++counter
+					console.log(counter)
+					if (initialize || counter % 10 === 0) {
+						initialize = false
+						if (
+							data.sensorId !== 'V0' &&
+							data.sensorId !== 'V6' &&
+							data.sensorId !== 'V7' &&
+							data.sensorId !== 'V8' &&
+							data.sensorId !== 'V9' &&
+							data.sensorId !== 'V10'
+						) {
+							notification.open({
+								message: <span className='font-semibold'>{data.title}</span>,
+								description: data.description,
+								icon: <PiWarningCircleFill className='text-blue-500' />,
+								duration: 10,
+							})
+						} else if (isRemindGas && data.sensorId === 'V0') {
+							sound.play()
+							dispatch(
+								actionOpenModal(
+									null,
+									<ModalNotify sensor={GAS} roomName={data.roomName} stompClient={stompClient} />,
+									false
+								)
 							)
-						)
-					} else if (
-						isRemindFire &&
-						(data.sensorId === 'V6' ||
-							data.sensorId === 'V7' ||
-							data.sensorId === 'V8' ||
-							data.sensorId === 'V9' ||
-							data.sensorId === 'V10')
-					) {
-						sound.play()
-						dispatch(
-							actionOpenModal(
-								null,
-								<ModalNotify sensor={FIRE} roomName={data.roomName} stompClient={stompClient} />,
-								false
+						} else if (
+							isRemindFire &&
+							(data.sensorId === 'V6' ||
+								data.sensorId === 'V7' ||
+								data.sensorId === 'V8' ||
+								data.sensorId === 'V9' ||
+								data.sensorId === 'V10')
+						) {
+							sound.play()
+							dispatch(
+								actionOpenModal(
+									null,
+									<ModalNotify sensor={FIRE} roomName={data.roomName} stompClient={stompClient} />,
+									false
+								)
 							)
-						)
+						}
 					}
 				})
 			})

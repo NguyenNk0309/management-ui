@@ -221,7 +221,11 @@ export function cancelRemindAction(payload, isEnableTimeout = true) {
 		dispatch({ type: CANCEL_REMIND, payload: { sensor: payload.sensor, status: payload.status } })
 		if (isEnableTimeout) {
 			setTimeout(() => {
-				dispatch({ type: CANCEL_REMIND, payload: payload.sensor })
+				const { stompClient } = getState().roomReducer
+				if (stompClient.connected) {
+					stompClient.disconnect()
+				}
+				dispatch({ type: CANCEL_REMIND, payload: { sensor: payload.sensor, status: true } })
 			}, payload.time)
 		}
 	}
