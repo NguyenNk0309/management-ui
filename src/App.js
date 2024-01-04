@@ -49,7 +49,6 @@ function App() {
 
 			stompClient.connect({}, () => {
 				let counter = 0
-				let initialize = true
 				const subscribeURL =
 					localStorage.getItem(ROLE) === ADMIN_ROLE
 						? `/ws/topic/role/${localStorage.getItem(ROLE)}`
@@ -58,9 +57,7 @@ function App() {
 				stompClient.subscribe(subscribeURL, (response) => {
 					const data = JSON.parse(response.body)
 					++counter
-					console.log(counter)
-					if (initialize || counter % 10 === 0) {
-						initialize = false
+					if (counter % 10 === 0) {
 						if (
 							data.sensorId !== 'V0' &&
 							data.sensorId !== 'V6' &&
