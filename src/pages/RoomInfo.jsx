@@ -97,6 +97,9 @@ const options = {
 }
 
 const options2 = {
+	animation: {
+		duration: 0,
+	},
 	plugins: {
 		tooltip: {
 			titleFont: { size: 0 },
@@ -182,6 +185,7 @@ const RoomInfo = () => {
 			setActiveTab('day')
 			setCalendar({ display: moment().format('yyyy-MM-DD'), value: dayjs() })
 			setThisRoom(thisRoom)
+			setAmpVoltSlider([0, 100])
 			dispatch({ type: GET_NEW_UPDATED_ROOM_NAME, payload: thisRoom.name })
 			dispatch(getHardwareLimitAction(thisRoom.pk))
 			dispatch(
