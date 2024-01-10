@@ -594,7 +594,7 @@ const RoomInfo = () => {
 						<h1 className='font-semibold text-2xl'>
 							{hardware?.ampereSensorValue === 'N/A' || hardware?.voltageSensorValue === 'N/A'
 								? 'N/A'
-								: hardware?.ampereSensorValue * hardware?.voltageSensorValue}
+								: (hardware?.ampereSensorValue * hardware?.voltageSensorValue).toFixed(2)}
 						</h1>
 					</div>
 					<div></div>
